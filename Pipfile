@@ -5,7 +5,7 @@ name = "pypi"
 
 [packages]
 django = "*"
-graphene-django = "*"
+graphene-django = "<=2.10.1"
 django-graphql-jwt = "*"
 django-cors-headers = "*"
 
