@@ -17,9 +17,19 @@ class Query(graphene.ObjectType):
     in project schema file
     """
     user = graphene.Field(UserType, id=graphene.Int(required=True))
+    me = graphene.Field(UserType)
 
     def resolve_user(self, info, id):
         return get_user_model().objects.get(id=id)
+
+    def resolve_me(self, info):
+        # graphene-python with GraphQLView enabled gives access to a per-request
+        # context object via the info parameter.
+        # https://docs.graphene-python.org/projects/django/en/latest/authorization/#user-based-queryset-filtering
+        user = info.context.user
+        if user.is_anonymous:
+            raise Exception("Not logged in!")
+        return user
 
 
 class CreateUser(graphene.Mutation):

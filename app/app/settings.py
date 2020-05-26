@@ -20,6 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
+# TODO: Import prod key from environ (The key below is for development only)
 SECRET_KEY = 'kr%%$5hm6cs^m!d6kdf8p#w4brp+%9x0x#6zxfyz(av(%@5(ie'
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -43,7 +44,10 @@ INSTALLED_APPS = [
 
 GRAPHENE = {
     # Tells django where the graphene schema is located
-    "SCHEMA": "app.schema.schema"
+    "SCHEMA": "app.schema.schema",
+    'MIDDLEWARE': [
+        'graphql_jwt.middleware.JSONWebTokenMiddleware',
+    ],
 }
 
 MIDDLEWARE = [
@@ -54,6 +58,12 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+]
+
+AUTHENTICATION_BACKENDS = [
+    'graphql_jwt.backends.JSONWebTokenBackend',
+    'django.contrib.auth.backends.ModelBackend',
 ]
 
 ROOT_URLCONF = 'app.urls'
