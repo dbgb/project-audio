@@ -28,7 +28,7 @@ class CreateTrack(graphene.Mutation):
     """
     Defines mutation fields and resolvers for creating Track objects
     """
-    # Fields
+
     track = graphene.Field(TrackType)
 
     class Arguments:
@@ -36,13 +36,13 @@ class CreateTrack(graphene.Mutation):
         description = graphene.String()
         url = graphene.String()
 
-    # Resolvers
     def mutate(self, info, **kwargs):
         """
         Allows an authenticated user to create tracks
         """
         user = info.context.user
         if user.is_anonymous:
+            # Verify user is authenticated before proceeding
             raise Exception("Please log in to add a track.")
 
         title = kwargs.get("title")
@@ -72,6 +72,10 @@ class UpdateTrack(graphene.Mutation):
         Allows an authenticated user to update an existing track
         """
         user = info.context.user
+        if user.is_anonymous:
+            # Verify user is authenticated before proceeding
+            raise Exception("Please log in to modify tracks.")
+
         track = Track.objects.get(id=kwargs.get("track_id"))
 
         if track.posted_by != user:
@@ -105,6 +109,10 @@ class DeleteTrack(graphene.Mutation):
         """
 
         user = info.context.user
+        if user.is_anonymous:
+            # Verify user is authenticated before proceeding
+            raise Exception("Please log in to modify tracks.")
+
         track = Track.objects.get(id=track_id)
 
         if track.posted_by != user:
@@ -123,6 +131,7 @@ class Mutation(graphene.ObjectType):
     Defines base mutation type for tracks app, to be inherited by base query
     type in project schema file
     """
+
     create_track = CreateTrack.Field()
     update_track = UpdateTrack.Field()
     delete_track = DeleteTrack.Field()
