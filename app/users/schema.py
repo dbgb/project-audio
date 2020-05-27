@@ -23,6 +23,9 @@ class Query(graphene.ObjectType):
         return get_user_model().objects.get(id=id)
 
     def resolve_me(self, info):
+        """
+        Returns context information available for the currently authenticated user
+        """
         # graphene-python with GraphQLView enabled gives access to a per-request
         # context object via the info parameter.
         # https://docs.graphene-python.org/projects/django/en/latest/authorization/#user-based-queryset-filtering

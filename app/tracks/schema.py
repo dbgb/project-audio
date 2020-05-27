@@ -38,13 +38,55 @@ class CreateTrack(graphene.Mutation):
 
     # Resolvers
     def mutate(self, info, **kwargs):
+        """
+        Allows an authenticated user to create tracks
+        """
+        user = info.context.user
+        if user.is_anonymous:
+            raise Exception("Please log in to add a track.")
+
         title = kwargs.get("title")
         description = kwargs.get("description")
         url = kwargs.get("url")
-
-        track = Track(title=title, description=description, url=url)
+        track = Track(title=title, description=description,
+                      url=url, posted_by=user)
         track.save()
         return CreateTrack(track=track)
+
+
+class UpdateTrack(graphene.Mutation):
+    """
+    Defines mutation fields and resolvers for updating Track objects
+    """
+
+    track = graphene.Field(TrackType)
+
+    class Arguments:
+        track_id = graphene.ID(required=True)
+        title = graphene.String()
+        description = graphene.String()
+        url = graphene.String()
+
+    def mutate(self, info, **kwargs):
+        """
+        Allows an authenticated user to update existing tracks
+        """
+        user = info.context.user
+        track = Track.objects.get(id=kwargs.get("track_id"))
+
+        if track.posted_by != user:
+            # Only allow users to update tracks associated with the currently
+            # authenticated account
+            raise Exception(
+                "You do not have the required permissions to update this track.")
+
+        track.title = kwargs.get("title")
+        track.description = kwargs.get("description")
+        track.url = kwargs.get("url")
+
+        track.save()
+
+        return UpdateTrack(track=track)
 
 
 class Mutation(graphene.ObjectType):
@@ -53,3 +95,4 @@ class Mutation(graphene.ObjectType):
     type in project schema file
     """
     create_track = CreateTrack.Field()
+    update_track = UpdateTrack.Field()
