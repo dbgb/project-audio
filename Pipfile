@@ -8,6 +8,7 @@ django = "*"
 graphene-django = "<=2.10.1"
 django-graphql-jwt = "*"
 django-cors-headers = "*"
+django-environ = "*"
 
 [dev-packages]
 autopep8 = "*"
