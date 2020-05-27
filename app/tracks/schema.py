@@ -69,7 +69,7 @@ class UpdateTrack(graphene.Mutation):
 
     def mutate(self, info, **kwargs):
         """
-        Allows an authenticated user to update existing tracks
+        Allows an authenticated user to update an existing track
         """
         user = info.context.user
         track = Track.objects.get(id=kwargs.get("track_id"))
@@ -78,7 +78,7 @@ class UpdateTrack(graphene.Mutation):
             # Only allow users to update tracks associated with the currently
             # authenticated account
             raise Exception(
-                "You do not have the required permissions to update this track.")
+                "You do not have permission to update this track.")
 
         track.title = kwargs.get("title")
         track.description = kwargs.get("description")
@@ -89,6 +89,35 @@ class UpdateTrack(graphene.Mutation):
         return UpdateTrack(track=track)
 
 
+class DeleteTrack(graphene.Mutation):
+    """
+    Defines mutation fields and resolvers for deleting Track objects
+    """
+
+    track_id = graphene.Int()
+
+    class Arguments:
+        track_id = graphene.Int(required=True)
+
+    def mutate(self, info, track_id):
+        """
+        Allows an authenticated user to delete an existing track
+        """
+
+        user = info.context.user
+        track = Track.objects.get(id=track_id)
+
+        if track.posted_by != user:
+            # Only allow users to delete tracks associated with the currently
+            # authenticated account
+            raise Exception(
+                "You do not have permission to delete this track.")
+
+        track.delete()
+
+        return DeleteTrack(track_id=track_id)
+
+
 class Mutation(graphene.ObjectType):
     """
     Defines base mutation type for tracks app, to be inherited by base query
@@ -96,3 +125,4 @@ class Mutation(graphene.ObjectType):
     """
     create_track = CreateTrack.Field()
     update_track = UpdateTrack.Field()
+    delete_track = DeleteTrack.Field()
