@@ -5,7 +5,7 @@ from graphene_django import DjangoObjectType
 
 class UserType(DjangoObjectType):
     """
-    Transforms Django user model into graphene compatible ObjectType
+    Transform Django user model into graphene compatible ObjectType
     """
     class Meta:
         model = get_user_model()
@@ -13,7 +13,7 @@ class UserType(DjangoObjectType):
 
 class Query(graphene.ObjectType):
     """
-    Defines base query type for users, to be inherited by base query type
+    Define base query type for users, to be inherited by base query type
     in project schema file
     """
     user = graphene.Field(UserType, id=graphene.Int(required=True))
@@ -24,7 +24,7 @@ class Query(graphene.ObjectType):
 
     def resolve_me(self, info):
         """
-        Returns context information available for the currently authenticated user
+        Return context information available for the currently authenticated user
         """
         # graphene-python with GraphQLView enabled gives access to a per-request
         # context object via the info parameter.
@@ -37,7 +37,7 @@ class Query(graphene.ObjectType):
 
 class CreateUser(graphene.Mutation):
     """
-    Defines mutation fields and resolvers for creating User objects
+    Define mutation fields and resolvers for creating User objects
     """
     user = graphene.Field(UserType)
 
@@ -56,7 +56,7 @@ class CreateUser(graphene.Mutation):
 
 class Mutation(graphene.ObjectType):
     """
-    Defines base mutation type for users, to be inherited by base query
+    Define base mutation type for users, to be inherited by base query
     type in project schema file
     """
     create_user = CreateUser.Field()

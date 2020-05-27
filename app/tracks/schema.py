@@ -1,32 +1,45 @@
 import graphene
 from graphene_django import DjangoObjectType
-from .models import Track
+from users.schema import UserType
+from .models import Track, Like
 
 
 class TrackType(DjangoObjectType):
     """
-    Transforms django model into graphene compatible ObjectType
+    Transform django Track model into graphene compatible ObjectType
     """
     class Meta:
         model = Track
 
 
+class LikeType(DjangoObjectType):
+    """
+    Transform django Like model into graphene compatible ObjectType
+    """
+    class Meta:
+        model = Like
+
+
 class Query(graphene.ObjectType):
     """
-    Defines base query type for tracks app, to be inherited by base query type
+    Define base query type for tracks app, to be inherited by base query type
     in project schema file
     """
     # Fields
     tracks = graphene.List(TrackType)
+    likes = graphene.List(LikeType)
 
     # Resolvers
     def resolve_tracks(self, info):
         return Track.objects.all()
 
+    def resolve_likes(self, info):
+        return Like.objects.all()
+
 
 class CreateTrack(graphene.Mutation):
     """
-    Defines mutation fields and resolvers for creating Track objects
+    Define mutation fields and resolvers for creating Track objects
     """
 
     track = graphene.Field(TrackType)
@@ -38,7 +51,7 @@ class CreateTrack(graphene.Mutation):
 
     def mutate(self, info, **kwargs):
         """
-        Allows an authenticated user to create tracks
+        Allow an authenticated user to create tracks
         """
         user = info.context.user
         if user.is_anonymous:
@@ -56,7 +69,7 @@ class CreateTrack(graphene.Mutation):
 
 class UpdateTrack(graphene.Mutation):
     """
-    Defines mutation fields and resolvers for updating Track objects
+    Define mutation fields and resolvers for updating Track objects
     """
 
     track = graphene.Field(TrackType)
@@ -69,7 +82,7 @@ class UpdateTrack(graphene.Mutation):
 
     def mutate(self, info, **kwargs):
         """
-        Allows an authenticated user to update an existing track
+        Allow an authenticated user to update an existing track
         """
         user = info.context.user
         if user.is_anonymous:
@@ -95,7 +108,7 @@ class UpdateTrack(graphene.Mutation):
 
 class DeleteTrack(graphene.Mutation):
     """
-    Defines mutation fields and resolvers for deleting Track objects
+    Define mutation fields and resolvers for deleting Track objects
     """
 
     track_id = graphene.Int()
@@ -105,7 +118,7 @@ class DeleteTrack(graphene.Mutation):
 
     def mutate(self, info, track_id):
         """
-        Allows an authenticated user to delete an existing track
+        Allow an authenticated user to delete an existing track
         """
 
         user = info.context.user
@@ -126,12 +139,49 @@ class DeleteTrack(graphene.Mutation):
         return DeleteTrack(track_id=track_id)
 
 
+class LikeTrack(graphene.Mutation):
+    """
+    Define mutation fields and resolvers for liking Track objects
+    """
+
+    user = graphene.Field(UserType)
+    track = graphene.Field(TrackType)
+
+    class Arguments:
+        track_id = graphene.Int(required=True)
+
+    def mutate(self, info, track_id):
+        """
+        Allow an authenticated user to like an existing track
+        """
+
+        user = info.context.user
+        if user.is_anonymous:
+            # Verify user is authenticated before proceeding
+            raise Exception("Please log in to like tracks.")
+
+        track = Track.objects.get(id=track_id)
+        if not track:
+            raise Exception("Track does not exist.")
+
+        # TODO: prevent duplicate likes
+        Like.objects.create(
+            user=user,
+            track=track
+        )
+
+        return LikeTrack(user=user, track=track)
+
+
+# TODO: Implement UnlikeTrack - toggle in LikeTrack?
+
 class Mutation(graphene.ObjectType):
     """
-    Defines base mutation type for tracks app, to be inherited by base query
+    Define base mutation type for tracks app, to be inherited by base query
     type in project schema file
     """
 
     create_track = CreateTrack.Field()
     update_track = UpdateTrack.Field()
     delete_track = DeleteTrack.Field()
+    like_track = LikeTrack.Field()

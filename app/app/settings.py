@@ -32,7 +32,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = env("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# Defaults to off if not switched on in os.environ
+# Default to off if not switched on in os.environ
 DEBUG = env("DEBUG")
 
 ALLOWED_HOSTS = []
@@ -52,7 +52,7 @@ INSTALLED_APPS = [
 ]
 
 GRAPHENE = {
-    # Tells django where the graphene schema is located
+    # Tell django where the graphene schema is located
     "SCHEMA": "app.schema.schema",
     'MIDDLEWARE': [
         'graphql_jwt.middleware.JSONWebTokenMiddleware',
