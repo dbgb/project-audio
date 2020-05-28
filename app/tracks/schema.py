@@ -1,5 +1,6 @@
 import graphene
 from graphene_django import DjangoObjectType
+from graphql import GraphQLError
 from users.schema import UserType
 from .models import Track, Like
 
@@ -56,7 +57,7 @@ class CreateTrack(graphene.Mutation):
         user = info.context.user
         if user.is_anonymous:
             # Verify user is authenticated before proceeding
-            raise Exception("Please log in to add a track.")
+            raise GraphQLError("Please log in to add a track.")
 
         title = kwargs.get("title")
         description = kwargs.get("description")
@@ -87,14 +88,14 @@ class UpdateTrack(graphene.Mutation):
         user = info.context.user
         if user.is_anonymous:
             # Verify user is authenticated before proceeding
-            raise Exception("Please log in to modify tracks.")
+            raise GraphQLError("Please log in to modify tracks.")
 
         track = Track.objects.get(id=kwargs.get("track_id"))
 
         if track.posted_by != user:
             # Only allow users to update tracks associated with the currently
             # authenticated account
-            raise Exception(
+            raise GraphQLError(
                 "You do not have permission to update this track.")
 
         track.title = kwargs.get("title")
@@ -124,14 +125,14 @@ class DeleteTrack(graphene.Mutation):
         user = info.context.user
         if user.is_anonymous:
             # Verify user is authenticated before proceeding
-            raise Exception("Please log in to modify tracks.")
+            raise GraphQLError("Please log in to modify tracks.")
 
         track = Track.objects.get(id=track_id)
 
         if track.posted_by != user:
             # Only allow users to delete tracks associated with the currently
             # authenticated account
-            raise Exception(
+            raise GraphQLError(
                 "You do not have permission to delete this track.")
 
         track.delete()
@@ -158,11 +159,11 @@ class LikeTrack(graphene.Mutation):
         user = info.context.user
         if user.is_anonymous:
             # Verify user is authenticated before proceeding
-            raise Exception("Please log in to like tracks.")
+            raise GraphQLError("Please log in to like tracks.")
 
         track = Track.objects.get(id=track_id)
         if not track:
-            raise Exception("Track does not exist.")
+            raise GraphQLError("Track does not exist.")
 
         # TODO: prevent duplicate likes
         Like.objects.create(

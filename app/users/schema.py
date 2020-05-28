@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 import graphene
+from graphql import GraphQLError
 from graphene_django import DjangoObjectType
 
 
@@ -31,7 +32,7 @@ class Query(graphene.ObjectType):
         # https://docs.graphene-python.org/projects/django/en/latest/authorization/#user-based-queryset-filtering
         user = info.context.user
         if user.is_anonymous:
-            raise Exception("Not logged in!")
+            raise GraphQLError("Not logged in!")
         return user
 
 
