@@ -1,14 +1,44 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import React from "react";
+import ReactDOM from "react-dom";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import {
+  MuiThemeProvider,
+  responsiveFontSizes,
+  createMuiTheme,
+} from "@material-ui/core/styles";
+import App from "../src/pages/App";
+import * as serviceWorker from "./serviceWorker";
+
+// https://material-ui.com/customization/theming/
+let theme = createMuiTheme({
+  palette: {
+    primary: {
+      light: "#d1d9ff",
+      main: "#9fa8da",
+      dark: "#6f79a8",
+      contrastText: "#000",
+    },
+    secondary: {
+      light: "#cfcfcf",
+      main: "#9e9e9e",
+      dark: "#707070",
+      contrastText: "#000",
+    },
+  },
+});
+theme = responsiveFontSizes(theme);
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    {/* Make mui theme available to all child components via react context */}
+    <MuiThemeProvider theme={theme}>
+      {/* Create global css reset */}
+      {/* https://material-ui.com/components/css-baseline/ */}
+      <CssBaseline />
+      <App />
+    </MuiThemeProvider>
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
 
 // If you want your app to work offline and load faster, you can change
