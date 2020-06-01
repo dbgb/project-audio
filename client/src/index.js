@@ -8,7 +8,8 @@ import {
 } from "@material-ui/core/styles";
 import App from "../src/pages/App";
 import * as serviceWorker from "./serviceWorker";
-import ApolloClient, { gql } from "apollo-boost";
+import ApolloClient from "apollo-boost";
+import { ApolloProvider } from "@apollo/react-hooks";
 
 // https://material-ui.com/customization/theming/
 let theme = createMuiTheme({
@@ -34,27 +35,18 @@ const client = new ApolloClient({
   uri: process.env.REACT_APP_GQL_ENDPOINT,
 });
 
-client
-  .query({
-    query: gql`
-      {
-        tracks {
-          title
-        }
-      }
-    `,
-  })
-  .then((res) => console.log(res));
-
 ReactDOM.render(
   <React.StrictMode>
-    {/* Make mui theme available to all child components via react context */}
-    <MuiThemeProvider theme={theme}>
-      {/* Create global css reset */}
-      {/* https://material-ui.com/components/css-baseline/ */}
-      <CssBaseline />
-      <App />
-    </MuiThemeProvider>
+    {/* Make Apollo client available to component tree via React context */}
+    <ApolloProvider client={client}>
+      {/* Make mui theme available to to component tree via React context */}
+      <MuiThemeProvider theme={theme}>
+        {/* Create global css reset */}
+        {/* https://material-ui.com/components/css-baseline/ */}
+        <CssBaseline />
+        <App />
+      </MuiThemeProvider>
+    </ApolloProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );
