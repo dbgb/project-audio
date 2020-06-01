@@ -8,6 +8,7 @@ import {
 } from "@material-ui/core/styles";
 import App from "../src/pages/App";
 import * as serviceWorker from "./serviceWorker";
+import ApolloClient, { gql } from "apollo-boost";
 
 // https://material-ui.com/customization/theming/
 let theme = createMuiTheme({
@@ -27,6 +28,23 @@ let theme = createMuiTheme({
   },
 });
 theme = responsiveFontSizes(theme);
+
+// Register GraphQL endpoint with Apollo Client
+const client = new ApolloClient({
+  uri: process.env.REACT_APP_GQL_ENDPOINT,
+});
+
+client
+  .query({
+    query: gql`
+      {
+        tracks {
+          title
+        }
+      }
+    `,
+  })
+  .then((res) => console.log(res));
 
 ReactDOM.render(
   <React.StrictMode>
