@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import Button from "@material-ui/core/Button";
 import { gql } from "apollo-boost";
 import { useQuery } from "@apollo/react-hooks";
+import { Button } from '@material-ui/core';
 
 const GET_TRACKS_QUERY = gql`
   {

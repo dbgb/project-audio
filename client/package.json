@@ -39,6 +39,7 @@
     ]
   },
   "devDependencies": {
+    "@material-ui/codemod": "^4.5.0",
     "babel-plugin-import": "^1.13.0",
     "customize-cra": "^1.0.0",
     "react-app-rewired": "^2.1.6"
