@@ -9,6 +9,7 @@ import {
   Button,
   ButtonGroup,
   Dialog,
+  DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
@@ -32,9 +33,11 @@ const CREATE_USER = gql`
   }
 `;
 
-function Transition(props) {
-  return <Slide direction="down" {...props} />;
-}
+const SlideTransition = React.forwardRef((props, ref) => {
+  // forwardRef provides required access to the inner DOM node
+  // https://material-ui.com/guides/composition/#caveat-with-refs
+  return <Slide ref={ref} direction="down" {...props} />;
+});
 
 export default function Register({ setExistingUser }) {
   // First arg to makeStyles input function provides access to global MUI theme
@@ -72,6 +75,9 @@ export default function Register({ setExistingUser }) {
       marginTop: theme.spacing(2),
       marginBottom: theme.spacing(2),
     },
+    dialogText: {
+      textAlign: "center",
+    },
     dialogIcon: {
       padding: "0px 2px 2px 0px",
       verticalAlign: "middle",
@@ -94,16 +100,10 @@ export default function Register({ setExistingUser }) {
   // Handlers
   const handleSubmit = async (e, fn) => {
     e.preventDefault();
-    // Make loading/error messages available
     setSnackOpen(true);
     const res = await fn({ variables: { username, email, password } });
-    //
     setDialogOpen(true);
     console.log("res", res);
-  };
-
-  const handleClose = () => {
-    // TODO: handle dialog / snackbar close behaviour
   };
 
   // Render component
@@ -176,7 +176,7 @@ export default function Register({ setExistingUser }) {
         {mutationError && (
           <Snackbar
             open={snackOpen}
-            autoHideDuration={6000}
+            autoHideDuration={5000}
             message="Registration failed. Please try again."
           />
         )}
@@ -184,14 +184,18 @@ export default function Register({ setExistingUser }) {
       <Dialog
         disableBackdropClick={true}
         open={dialogOpen}
-        TransitionComponent={Transition}
+        TransitionComponent={SlideTransition}
       >
         <DialogTitle>
           <VerifiedUserTwoTone className={classes.dialogIcon} />
           Registration successful!
         </DialogTitle>
         <DialogContent>
-          <DialogContentText>New account created.</DialogContentText>
+          <DialogContentText className={classes.dialogText}>
+            Welcome aboard {username}!
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
           <Button
             className={classes.dialogButton}
             variant="contained"
@@ -201,7 +205,7 @@ export default function Register({ setExistingUser }) {
           >
             Login
           </Button>
-        </DialogContent>
+        </DialogActions>
       </Dialog>
     </div>
   );
