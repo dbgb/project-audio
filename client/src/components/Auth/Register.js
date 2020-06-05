@@ -17,7 +17,7 @@ import {
   Typography,
 } from "@material-ui/core/";
 import { makeStyles } from "@material-ui/core/styles";
-import { Gavel, VerifiedUserTwoTone } from "@material-ui/icons";
+import { Gavel, VerifiedUserTwoTone, LockOpen } from "@material-ui/icons";
 import { useMutation } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
 
@@ -36,7 +36,7 @@ function Transition(props) {
   return <Slide direction="down" {...props} />;
 }
 
-export default function Register() {
+export default function Register({ setExistingUser }) {
   // First arg to makeStyles input function provides access to global MUI theme
   // from React context
   // https://material-ui.com/styles/api/#makestyles-styles-options-hook
@@ -75,6 +75,9 @@ export default function Register() {
     dialogIcon: {
       padding: "0px 2px 2px 0px",
       verticalAlign: "middle",
+    },
+    dialogButton: {
+      width: "100%",
     },
   }));
   const classes = useStyles();
@@ -161,7 +164,11 @@ export default function Register() {
             >
               {mutationLoading ? "Registering..." : "Register"}
             </Button>
-            <Button variant="outlined" color="secondary">
+            <Button
+              variant="outlined"
+              color="secondary"
+              onClick={() => setExistingUser(true)}
+            >
               Already registered? Log in here
             </Button>
           </ButtonGroup>
@@ -185,6 +192,15 @@ export default function Register() {
         </DialogTitle>
         <DialogContent>
           <DialogContentText>New account created.</DialogContentText>
+          <Button
+            className={classes.dialogButton}
+            variant="contained"
+            color="primary"
+            onClick={() => setExistingUser(true)}
+            endIcon={<LockOpen />}
+          >
+            Login
+          </Button>
         </DialogContent>
       </Dialog>
     </div>
