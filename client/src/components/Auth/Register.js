@@ -13,6 +13,7 @@ import {
   DialogContentText,
   DialogTitle,
   Snackbar,
+  Slide,
   Typography,
 } from "@material-ui/core/";
 import { makeStyles } from "@material-ui/core/styles";
@@ -30,6 +31,10 @@ const CREATE_USER = gql`
     }
   }
 `;
+
+function Transition(props) {
+  return <Slide direction="down" {...props} />;
+}
 
 export default function Register() {
   // First arg to makeStyles input function provides access to global MUI theme
@@ -105,7 +110,7 @@ export default function Register() {
         <Avatar className={classes.avatar}>
           <Gavel />
         </Avatar>
-        <Typography variant="h5">Register</Typography>
+        <Typography variant="h5">Create User Account</Typography>
         <form
           className={classes.form}
           onSubmit={(e) => handleSubmit(e, createUser)}
@@ -169,7 +174,11 @@ export default function Register() {
           />
         )}
       </Paper>
-      <Dialog disableBackdropClick={true} open={dialogOpen}>
+      <Dialog
+        disableBackdropClick={true}
+        open={dialogOpen}
+        TransitionComponent={Transition}
+      >
         <DialogTitle>
           <VerifiedUserTwoTone className={classes.dialogIcon} />
           Registration successful!
