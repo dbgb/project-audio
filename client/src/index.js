@@ -5,6 +5,7 @@ import {
   responsiveFontSizes,
   createMuiTheme,
 } from "@material-ui/core/styles";
+import { deepPurple, grey } from "@material-ui/core/colors";
 import ApolloClient from "apollo-boost";
 import { ApolloProvider } from "@apollo/react-hooks";
 import * as serviceWorker from "./serviceWorker";
@@ -17,16 +18,14 @@ import { CssBaseline } from "@material-ui/core";
 let theme = createMuiTheme({
   palette: {
     primary: {
-      light: "#d1d9ff",
-      main: "#9fa8da",
-      dark: "#6f79a8",
-      contrastText: "#000",
+      light: deepPurple[300],
+      main: deepPurple[500],
+      dark: deepPurple[700],
     },
     secondary: {
-      light: "#cfcfcf",
-      main: "#9e9e9e",
-      dark: "#707070",
-      contrastText: "#000",
+      light: grey[300],
+      main: grey[500],
+      dark: grey[700],
     },
   },
 });
