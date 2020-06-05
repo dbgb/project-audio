@@ -147,27 +147,25 @@ export default function Register() {
               type="submit"
               variant="contained"
               color="primary"
-              disabled={mutationLoading || !username || !email || !password}
+              disabled={
+                mutationLoading ||
+                !username.trim() ||
+                !email.trim() ||
+                !password.trim()
+              }
             >
-              Register
+              {mutationLoading ? "Registering..." : "Register"}
             </Button>
             <Button variant="outlined" color="secondary">
               Already registered? Log in here
             </Button>
           </ButtonGroup>
         </form>
-        {mutationLoading && (
-          <Snackbar
-            open={snackOpen}
-            autoHideDuration={6000}
-            message="Registering..."
-          />
-        )}
         {mutationError && (
           <Snackbar
             open={snackOpen}
             autoHideDuration={6000}
-            message="Registration failed."
+            message="Registration failed. Please try again."
           />
         )}
       </Paper>

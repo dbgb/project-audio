@@ -10,7 +10,7 @@ import { ApolloProvider } from "@apollo/react-hooks";
 import * as serviceWorker from "./serviceWorker";
 import App from "../src/pages/App";
 import Auth from "./components/Auth";
-import { CssBaseline } from '@material-ui/core';
+import { CssBaseline } from "@material-ui/core";
 
 // Implement global changes to default MUI theme settings
 // https://material-ui.com/customization/theming/
@@ -38,7 +38,7 @@ const client = new ApolloClient({
 });
 
 ReactDOM.render(
-  <React.StrictMode>
+  <>
     {/* Make Apollo client available to component tree via React context */}
     <ApolloProvider client={client}>
       {/* Make mui theme available to to component tree via React context */}
@@ -50,7 +50,7 @@ ReactDOM.render(
         <Auth />
       </MuiThemeProvider>
     </ApolloProvider>
-  </React.StrictMode>,
+  </>,
   document.getElementById("root")
 );
 
