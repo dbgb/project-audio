@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import Register from "./Register";
 import Login from "./Login";
 
-export default function index() {
+export default () => {
   // Send user to register/login, or redirect to main page if authenticated
-  return <Register />;
-}
+  const [newUser, setNewUser] = useState(true);
+  return newUser ? <Register setNewUser={setNewUser} /> : <Login />;
+};

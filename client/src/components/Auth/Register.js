@@ -8,10 +8,15 @@ import {
   InputLabel,
   Button,
   ButtonGroup,
+  Dialog,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Snackbar,
   Typography,
 } from "@material-ui/core/";
 import { makeStyles } from "@material-ui/core/styles";
-import { Gavel } from "@material-ui/icons";
+import { Gavel, VerifiedUserTwoTone } from "@material-ui/icons";
 import { useMutation } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
 
@@ -62,19 +67,38 @@ export default function Register() {
       marginTop: theme.spacing(2),
       marginBottom: theme.spacing(2),
     },
+    dialogIcon: {
+      padding: "0px 2px 2px 0px",
+      verticalAlign: "middle",
+    },
   }));
   const classes = useStyles();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [createUser, { data }] = useMutation(CREATE_USER);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [snackOpen, setSnackOpen] = useState(false);
+  const [
+    createUser,
+    { loading: mutationLoading, error: mutationError },
+  ] = useMutation(CREATE_USER);
 
+  // Handlers
   const handleSubmit = async (e, fn) => {
     e.preventDefault();
+    // Make loading/error messages available
+    setSnackOpen(true);
     const res = await fn({ variables: { username, email, password } });
+    //
+    setDialogOpen(true);
     console.log("res", res);
   };
 
+  const handleClose = () => {
+    // TODO: handle dialog / snackbar close behaviour
+  };
+
+  // Render component
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
@@ -119,7 +143,12 @@ export default function Register() {
             orientation="vertical"
             fullWidth
           >
-            <Button type="submit" variant="contained" color="primary">
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              disabled={mutationLoading || !username || !email || !password}
+            >
               Register
             </Button>
             <Button variant="outlined" color="secondary">
@@ -127,7 +156,30 @@ export default function Register() {
             </Button>
           </ButtonGroup>
         </form>
+        {mutationLoading && (
+          <Snackbar
+            open={snackOpen}
+            autoHideDuration={6000}
+            message="Registering..."
+          />
+        )}
+        {mutationError && (
+          <Snackbar
+            open={snackOpen}
+            autoHideDuration={6000}
+            message="Registration failed."
+          />
+        )}
       </Paper>
+      <Dialog disableBackdropClick={true} open={dialogOpen}>
+        <DialogTitle>
+          <VerifiedUserTwoTone className={classes.dialogIcon} />
+          Registration successful!
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText>New account created.</DialogContentText>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
