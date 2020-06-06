@@ -64,7 +64,7 @@ export default function Register({ setExistingUser }) {
     },
     avatar: {
       margin: theme.spacing(1),
-      backgroundColor: theme.palette.secondary.main,
+      backgroundColor: theme.palette.primary.main,
     },
     form: {
       width: "100%",
@@ -104,7 +104,6 @@ export default function Register({ setExistingUser }) {
     e.preventDefault();
     const res = await fn({ variables: { username, email, password } });
     setDialogOpen(true);
-    console.log("res", res);
   };
 
   // Render component
