@@ -23,9 +23,9 @@ let theme = createMuiTheme({
       dark: deepPurple[700],
     },
     secondary: {
-      light: grey[300],
-      main: grey[500],
-      dark: grey[700],
+      light: grey[500],
+      main: grey[700],
+      dark: grey[900],
     },
   },
 });

@@ -175,8 +175,10 @@ export default function Register({ setExistingUser }) {
             </Button>
           </ButtonGroup>
         </form>
+        {/* Fail state feedback */}
         {mutationError && <Error error={mutationError} />}
       </Paper>
+      {/* Success state feedback */}
       <Dialog
         disableBackdropClick={true}
         open={dialogOpen}
