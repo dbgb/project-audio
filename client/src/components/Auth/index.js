@@ -6,7 +6,7 @@ export default () => {
   // Send user to register/login, or redirect to main page if authenticated
   const [existingUser, setExistingUser] = useState(false);
   return existingUser ? (
-    <Login />
+    <Login setExistingUser={setExistingUser} />
   ) : (
     <Register setExistingUser={setExistingUser} />
   );
