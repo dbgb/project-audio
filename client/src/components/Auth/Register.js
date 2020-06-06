@@ -13,14 +13,14 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-  Snackbar,
   Slide,
   Typography,
 } from "@material-ui/core/";
-import { makeStyles } from "@material-ui/core/styles";
 import { Gavel, VerifiedUserTwoTone, LockOpen } from "@material-ui/icons";
+import { makeStyles } from "@material-ui/core/styles";
 import { useMutation } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
+import Error from "../Shared/Error";
 
 const CREATE_USER = gql`
   mutation($username: String!, $email: String!, $password: String!) {
@@ -71,6 +71,9 @@ export default function Register({ setExistingUser }) {
       marginTop: theme.spacing(1),
       marginBottom: theme.spacing(1),
     },
+    formButton: {
+      marginBottom: theme.spacing(1),
+    },
     submit: {
       marginTop: theme.spacing(2),
       marginBottom: theme.spacing(2),
@@ -91,7 +94,6 @@ export default function Register({ setExistingUser }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [snackOpen, setSnackOpen] = useState(false);
   const [
     createUser,
     { loading: mutationLoading, error: mutationError },
@@ -100,7 +102,6 @@ export default function Register({ setExistingUser }) {
   // Handlers
   const handleSubmit = async (e, fn) => {
     e.preventDefault();
-    setSnackOpen(true);
     const res = await fn({ variables: { username, email, password } });
     setDialogOpen(true);
     console.log("res", res);
@@ -152,6 +153,7 @@ export default function Register({ setExistingUser }) {
             fullWidth
           >
             <Button
+              className={classes.formButton}
               type="submit"
               variant="contained"
               color="primary"
@@ -173,13 +175,7 @@ export default function Register({ setExistingUser }) {
             </Button>
           </ButtonGroup>
         </form>
-        {mutationError && (
-          <Snackbar
-            open={snackOpen}
-            autoHideDuration={5000}
-            message="Registration failed. Please try again."
-          />
-        )}
+        {mutationError && <Error error={mutationError} />}
       </Paper>
       <Dialog
         disableBackdropClick={true}
