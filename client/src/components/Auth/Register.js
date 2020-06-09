@@ -100,9 +100,9 @@ export default function Register({ setExistingUser }) {
   ] = useMutation(CREATE_USER);
 
   // Handlers
-  const handleSubmit = async (e, fn) => {
+  const handleSubmit = async (e, createUser) => {
     e.preventDefault();
-    const res = await fn({ variables: { username, email, password } });
+    await createUser({ variables: { username, email, password } });
     setDialogOpen(true);
   };
 
@@ -163,6 +163,7 @@ export default function Register({ setExistingUser }) {
                 !password.trim()
               }
             >
+              {/* Loading state feedback */}
               {mutationLoading ? "Registering..." : "Register"}
             </Button>
             <Button
