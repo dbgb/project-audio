@@ -11,7 +11,7 @@ import {
 } from "@material-ui/core/";
 import { Lock } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/core/styles";
-import { useMutation } from "@apollo/react-hooks";
+import { useMutation, useApolloClient } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
 import Error from "../Shared/Error";
 
@@ -68,12 +68,16 @@ export default function Login({ setExistingUser }) {
     tokenAuth,
     { loading: mutationLoading, error: mutationError },
   ] = useMutation(AUTH_USER);
+  const client = useApolloClient();
 
   // Handlers
   const handleSubmit = async (e, tokenAuth) => {
     e.preventDefault();
     const res = await tokenAuth({ variables: { username, password } });
+    // On success, store jwt in client
     localStorage.setItem("authToken", res.data.tokenAuth.token);
+    // Then, update Apollo client state
+    client.writeData({ data: { isLoggedIn: true } });
   };
 
   // Render component

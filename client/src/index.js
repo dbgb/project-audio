@@ -7,10 +7,11 @@ import {
 } from "@material-ui/core/styles";
 import { deepPurple, grey } from "@material-ui/core/colors";
 import { CssBaseline } from "@material-ui/core";
-import ApolloClient from "apollo-boost";
+import ApolloClient, { gql } from "apollo-boost";
 import { ApolloProvider } from "@apollo/react-hooks";
+import { Query } from "@apollo/react-components";
 import * as serviceWorker from "./serviceWorker";
-// import App from "../src/pages/App";
+import App from "../src/pages/App";
 import Auth from "./components/Auth";
 
 // Implement global changes to default MUI theme settings
@@ -35,6 +36,12 @@ theme = responsiveFontSizes(theme);
 const client = new ApolloClient({
   // Register GraphQL endpoint
   uri: process.env.REACT_APP_GQL_ENDPOINT,
+  clientState: {
+    defaults: {
+      // Truth test for presence of authentication token
+      isLoggedIn: !!localStorage.getItem("authToken"),
+    },
+  },
   request: (operation) => {
     // Get JWT from local storage, if it exists
     const authToken = localStorage.getItem("authToken");
@@ -47,6 +54,13 @@ const client = new ApolloClient({
   },
 });
 
+// Query Apollo client state to determine if user is logged in
+const IS_LOGGED_IN_QUERY = gql`
+  {
+    isLoggedIn @client
+  }
+`;
+
 ReactDOM.render(
   <>
     {/* Make Apollo client available to component tree via React context */}
@@ -56,8 +70,10 @@ ReactDOM.render(
         {/* Create global css reset */}
         {/* https://material-ui.com/components/css-baseline/ */}
         <CssBaseline />
-        {/* Render main app component */}
-        <Auth />
+        {/* Render main app component, or auth if user is not logged in */}
+        <Query query={IS_LOGGED_IN_QUERY}>
+          {({ data }) => (data.isLoggedIn ? <App /> : <Auth />)}
+        </Query>
       </MuiThemeProvider>
     </ApolloProvider>
   </>,
