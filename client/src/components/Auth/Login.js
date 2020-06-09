@@ -70,10 +70,10 @@ export default function Login({ setExistingUser }) {
   ] = useMutation(AUTH_USER);
 
   // Handlers
-  const handleSubmit = async (e, fn) => {
+  const handleSubmit = async (e, tokenAuth) => {
     e.preventDefault();
-    const res = await fn({ variables: { username, password } });
-    console.log("res", res);
+    const res = await tokenAuth({ variables: { username, password } });
+    localStorage.setItem("authToken", res.data.tokenAuth.token);
   };
 
   // Render component
