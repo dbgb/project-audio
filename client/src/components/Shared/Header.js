@@ -8,18 +8,24 @@ export default function Header({ currentUser }) {
   // MUI component styling
   const useStyles = makeStyles((theme) => ({
     root: {
-      flexGrow: 1,
       margin: 0,
       padding: 0,
     },
-    grow: {
+    growFirst: {
+      display: "flex",
       flexGrow: 1,
+      alignItems: "center",
+      textDecoration: "none",
+      color: "#eee",
+    },
+    growAfter: {
       display: "flex",
       alignItems: "center",
       textDecoration: "none",
+      color: "#eee",
     },
     logo: {
-      marginRight: theme.spacing(2),
+      marginRight: theme.spacing(1),
       fontSize: "3em",
     },
     profileIcon: {
@@ -35,19 +41,19 @@ export default function Header({ currentUser }) {
   return (
     <AppBar position="static" className={classes.root}>
       <Toolbar>
-        <Link to="/" className={classes.grow}>
+        <Link to="/" className={classes.growFirst}>
           <RadioTwoTone className={classes.logo} />
-          <Typography variant="h5" noWrap>
+          <Typography variant="subtitle1" noWrap>
             {/* TODO: Decide on project name! */}
             {process.env.REACT_APP_NAME || "Project Name"}
           </Typography>
         </Link>
         {currentUser && (
-          <Link to={`/profile/${currentUser.id}`} className={classes.grow}>
+          <Link to={`/profile/${currentUser.id}`} className={classes.growAfter}>
             <LibraryMusicTwoTone
               className={classes.profileIcon}
             ></LibraryMusicTwoTone>
-            <Typography variant="h5" className={classes.username} noWrap>
+            <Typography variant="subtitle1" className={classes.username} noWrap>
               {currentUser.username}
             </Typography>
           </Link>
