@@ -74,9 +74,9 @@ export default function Login({ setExistingUser }) {
   const handleSubmit = async (e, tokenAuth) => {
     e.preventDefault();
     const res = await tokenAuth({ variables: { username, password } });
-    // On success, store jwt in client
+    // On success, store JWT in client
     localStorage.setItem("authToken", res.data.tokenAuth.token);
-    // Then, update Apollo client state
+    // Then, update Apollo client state to reflect this change 
     client.writeData({ data: { isLoggedIn: true } });
   };
 

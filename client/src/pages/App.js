@@ -1,39 +1,27 @@
-import React, { useState } from "react";
+import React from "react";
 import { gql } from "apollo-boost";
 import { useQuery } from "@apollo/react-hooks";
-import { Button } from '@material-ui/core';
 
-const GET_TRACKS_QUERY = gql`
+const ME_QUERY = gql`
   {
-    tracks {
-      title
+    me {
+      id
+      username
+      email
+      dateJoined
     }
   }
 `;
 
 function App() {
-  const [val, setVal] = useState(0);
-  const { loading, error, data } = useQuery(GET_TRACKS_QUERY);
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>{error}</p>;
-
-  function incrementVal() {
-    setVal(val + 1);
-  }
-
-  let tracks = data.tracks.map(({ title }) => <div key={title}>{title}</div>);
-
-  return (
-    <div className="App">
-      <header className="App-header">
-        <Button variant="contained" color="primary" onClick={incrementVal}>
-          Click me!
-        </Button>
-        <span> Value: {val}</span>
-        {tracks}
-      </header>
-    </div>
+  const { loading: meLoading, error: meError, data: meData } = useQuery(
+    ME_QUERY
   );
+
+  if (meLoading) return <p>Loading...</p>;
+  if (meError) return <p>{meError}</p>;
+
+  return <div className="App">{JSON.stringify(meData)}</div>;
 }
 
 export default App;

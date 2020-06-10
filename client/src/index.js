@@ -1,36 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import {
-  MuiThemeProvider,
-  responsiveFontSizes,
-  createMuiTheme,
-} from "@material-ui/core/styles";
-import { deepPurple, grey } from "@material-ui/core/colors";
-import { CssBaseline } from "@material-ui/core";
-import ApolloClient, { gql } from "apollo-boost";
-import { ApolloProvider } from "@apollo/react-hooks";
-import { Query } from "@apollo/react-components";
 import * as serviceWorker from "./serviceWorker";
-import App from "../src/pages/App";
-import Auth from "./components/Auth";
-
-// Implement global changes to default MUI theme settings
-// https://material-ui.com/customization/theming/
-let theme = createMuiTheme({
-  palette: {
-    primary: {
-      light: deepPurple[300],
-      main: deepPurple[500],
-      dark: deepPurple[700],
-    },
-    secondary: {
-      light: grey[500],
-      main: grey[700],
-      dark: grey[900],
-    },
-  },
-});
-theme = responsiveFontSizes(theme);
+import Root from "./Root";
+import ApolloClient from "apollo-boost";
+import { ApolloProvider } from "@apollo/react-hooks";
 
 // Apollo boost client config
 const client = new ApolloClient({
@@ -54,29 +27,11 @@ const client = new ApolloClient({
   },
 });
 
-// Query Apollo client state to determine if user is logged in
-const IS_LOGGED_IN_QUERY = gql`
-  {
-    isLoggedIn @client
-  }
-`;
-
 ReactDOM.render(
-  <>
-    {/* Make Apollo client available to component tree via React context */}
-    <ApolloProvider client={client}>
-      {/* Make mui theme available to to component tree via React context */}
-      <MuiThemeProvider theme={theme}>
-        {/* Create global css reset */}
-        {/* https://material-ui.com/components/css-baseline/ */}
-        <CssBaseline />
-        {/* Render main app component, or auth if user is not logged in */}
-        <Query query={IS_LOGGED_IN_QUERY}>
-          {({ data }) => (data.isLoggedIn ? <App /> : <Auth />)}
-        </Query>
-      </MuiThemeProvider>
-    </ApolloProvider>
-  </>,
+  // Make Apollo client available to component tree via React context */}
+  <ApolloProvider client={client}>
+    <Root />
+  </ApolloProvider>,
   document.getElementById("root")
 );
 
