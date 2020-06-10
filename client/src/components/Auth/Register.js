@@ -22,17 +22,6 @@ import { useMutation } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
 import Error from "../Shared/Error";
 
-const CREATE_USER = gql`
-  mutation($username: String!, $email: String!, $password: String!) {
-    createUser(username: $username, email: $email, password: $password) {
-      user {
-        username
-        email
-      }
-    }
-  }
-`;
-
 const SlideTransition = React.forwardRef((props, ref) => {
   // forwardRef provides required access to the inner DOM node
   // https://material-ui.com/guides/composition/#caveat-with-refs
@@ -208,3 +197,14 @@ export default function Register({ setExistingUser }) {
     </div>
   );
 }
+
+const CREATE_USER = gql`
+  mutation($username: String!, $email: String!, $password: String!) {
+    createUser(username: $username, email: $email, password: $password) {
+      user {
+        username
+        email
+      }
+    }
+  }
+`;

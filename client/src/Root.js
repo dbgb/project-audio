@@ -12,13 +12,7 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Auth from "./components/Auth";
 import App from "./pages/App";
 import Profile from "./pages/Profile";
-
-// Query Apollo client state to determine if user is logged in
-const IS_LOGGED_IN_QUERY = gql`
-  {
-    isLoggedIn @client
-  }
-`;
+import Header from "./components/Shared/Header";
 
 export default function Root() {
   // Implement global changes to default MUI theme settings
@@ -39,7 +33,13 @@ export default function Root() {
   });
   theme = responsiveFontSizes(theme);
 
-  const { loading, error, data } = useQuery(IS_LOGGED_IN_QUERY);
+  const { loading, error, data: isLoggedIn } = useQuery(IS_LOGGED_IN_QUERY);
+  const { loading: userLoading, error: userError, data: userData } = useQuery(
+    CURRENT_USER_QUERY
+  );
+
+  if (userLoading) return "Loading...";
+  else if (userError) return `Error! ${userError.message}`;
 
   return (
     // Make mui theme available to to component tree via React context
@@ -48,12 +48,34 @@ export default function Root() {
       {/* https://material-ui.com/components/css-baseline/ */}
       <CssBaseline />
       {/* Client routing logic */}
+
       <BrowserRouter>
-        <Switch>
-          <Route exact path="/" component={data.isLoggedIn ? App : Auth} />
-          <Route path="/profile/:id" component={Profile} />
-        </Switch>
+        <>
+          <Header currentUser={userData.me} />
+          <Switch>
+            <Route exact path="/" component={isLoggedIn ? App : Auth} />
+            <Route path="/profile/:id" component={Profile} />
+          </Switch>
+        </>
       </BrowserRouter>
     </MuiThemeProvider>
   );
 }
+
+// Queries
+// Determine if user is logged in
+const IS_LOGGED_IN_QUERY = gql`
+  query {
+    isLoggedIn @client
+  }
+`;
+
+// Determine identity of current user
+const CURRENT_USER_QUERY = gql`
+  query {
+    me {
+      id
+      username
+    }
+  }
+`;

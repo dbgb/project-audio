@@ -15,14 +15,6 @@ import { useMutation, useApolloClient } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
 import Error from "../Shared/Error";
 
-const AUTH_USER = gql`
-  mutation($username: String!, $password: String!) {
-    tokenAuth(username: $username, password: $password) {
-      token
-    }
-  }
-`;
-
 export default function Login({ setExistingUser }) {
   // MUI component styling
   const useStyles = makeStyles((theme) => ({
@@ -62,6 +54,8 @@ export default function Login({ setExistingUser }) {
     },
   }));
   const classes = useStyles();
+
+  // Component state
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [
@@ -76,7 +70,7 @@ export default function Login({ setExistingUser }) {
     const res = await tokenAuth({ variables: { username, password } });
     // On success, store JWT in client
     localStorage.setItem("authToken", res.data.tokenAuth.token);
-    // Then, update Apollo client state to reflect this change 
+    // Then, update Apollo client state to reflect this change
     client.writeData({ data: { isLoggedIn: true } });
   };
 
@@ -136,3 +130,11 @@ export default function Login({ setExistingUser }) {
     </div>
   );
 }
+
+const AUTH_USER = gql`
+  mutation($username: String!, $password: String!) {
+    tokenAuth(username: $username, password: $password) {
+      token
+    }
+  }
+`;
