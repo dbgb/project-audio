@@ -1,17 +1,26 @@
 import React from "react";
 import { gql } from "apollo-boost";
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery, useApolloClient } from "@apollo/react-hooks";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import App from "./pages/App";
+import Auth from "./components/Auth";
 import Profile from "./pages/Profile";
 import Header from "./components/Shared/Header";
+import Error from "./components/Shared/Error";
 
 export default function Root() {
   // Fetch user data
   const { loading, error, data } = useQuery(CURRENT_USER_QUERY);
+  // Hook into Apollo client state to allow direct write
+  const client = useApolloClient();
 
   if (loading) return "Loading...";
-  else if (error) return `Error! ${error.message}`;
+  else if (error && error.message === "GraphQL error: Signature has expired") {
+    // Reauthenticate on auth token expiry
+    // TODO: Configure refresh token strategy
+    client.writeData({ data: { isLoggedIn: false } });
+    return <Auth />;
+  } else if (error) return <Error error={error} />;
 
   return (
     // Client routing logic
