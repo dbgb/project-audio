@@ -1,7 +1,7 @@
 import React from "react";
 import { gql } from "apollo-boost";
 import { useQuery, useApolloClient } from "@apollo/react-hooks";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import App from "./pages/App";
 import Auth from "./components/Auth";
 import Profile from "./pages/Profile";
@@ -10,7 +10,7 @@ import Error from "./components/Shared/Error";
 import Loading from "./components/Shared/Loading";
 
 export default function Root() {
-  // Fetch user data
+  // Determine identity of current user
   const { loading, error, data } = useQuery(CURRENT_USER);
   // Hook into Apollo client state to allow direct write
   const client = useApolloClient();
@@ -25,7 +25,7 @@ export default function Root() {
 
   return (
     // Client routing logic
-    <BrowserRouter>
+    <Router>
       <>
         <Header currentUser={data.me} />
         <Switch>
@@ -33,11 +33,10 @@ export default function Root() {
           <Route path="/profile/:id" component={Profile} />
         </Switch>
       </>
-    </BrowserRouter>
+    </Router>
   );
 }
 
-// Determine identity of current user
 const CURRENT_USER = gql`
   query {
     me {
