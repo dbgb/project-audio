@@ -7,14 +7,15 @@ import Auth from "./components/Auth";
 import Profile from "./pages/Profile";
 import Header from "./components/Shared/Header";
 import Error from "./components/Shared/Error";
+import Loading from "./components/Shared/Loading";
 
 export default function Root() {
   // Fetch user data
-  const { loading, error, data } = useQuery(CURRENT_USER_QUERY);
+  const { loading, error, data } = useQuery(CURRENT_USER);
   // Hook into Apollo client state to allow direct write
   const client = useApolloClient();
 
-  if (loading) return "Loading...";
+  if (loading) return <Loading />;
   else if (error && error.message === "GraphQL error: Signature has expired") {
     // Reauthenticate on auth token expiry
     // TODO: Configure refresh token strategy
@@ -37,7 +38,7 @@ export default function Root() {
 }
 
 // Determine identity of current user
-const CURRENT_USER_QUERY = gql`
+const CURRENT_USER = gql`
   query {
     me {
       id

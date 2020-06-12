@@ -56,7 +56,7 @@ const client = new ApolloClient({
 });
 
 // Query Apollo state to determine if user is logged in
-const IS_LOGGED_IN_QUERY = gql`
+const IS_LOGGED_IN = gql`
   query {
     isLoggedIn @client
   }
@@ -71,7 +71,7 @@ ReactDOM.render(
       {/* https://material-ui.com/components/css-baseline/ */}
       <CssBaseline />
       {/* Send user to main app, or auth if not logged in */}
-      <Query query={IS_LOGGED_IN_QUERY}>
+      <Query query={IS_LOGGED_IN}>
         {({ data }) => (data.isLoggedIn ? <Root /> : <Auth />)}
       </Query>
     </MuiThemeProvider>
