@@ -6,37 +6,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Logout from "../Auth/Logout";
 
 export default function Header({ currentUser }) {
-  // MUI component styling
-  const useStyles = makeStyles((theme) => ({
-    root: {
-      margin: 0,
-      padding: 0,
-    },
-    growFirst: {
-      display: "flex",
-      flexGrow: 1,
-      alignItems: "center",
-
-      textDecoration: "none",
-      color: "#eee",
-    },
-    growAfter: {
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      textDecoration: "none",
-      color: "#eee",
-      margin: theme.spacing(2),
-    },
-    logo: {
-      marginRight: theme.spacing(2),
-      fontSize: "3em",
-    },
-    profileIcon: {
-      marginRight: theme.spacing(1),
-      fontSize: "1.5em",
-    },
-  }));
+  // Hook into MUI stylesheet
   const classes = useStyles();
 
   // Render component
@@ -66,3 +36,35 @@ export default function Header({ currentUser }) {
     </AppBar>
   );
 }
+
+// MUI component styling
+const useStyles = makeStyles((theme) => ({
+  root: {
+    margin: 0,
+    padding: 0,
+  },
+  growFirst: {
+    display: "flex",
+    flexGrow: 1,
+    alignItems: "center",
+
+    textDecoration: "none",
+    color: "#eee",
+  },
+  growAfter: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    textDecoration: "none",
+    color: "#eee",
+    margin: theme.spacing(2),
+  },
+  logo: {
+    marginRight: theme.spacing(2),
+    fontSize: "3em",
+  },
+  profileIcon: {
+    marginRight: theme.spacing(1),
+    fontSize: "1.5em",
+  },
+}));

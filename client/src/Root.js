@@ -37,6 +37,7 @@ export default function Root() {
   );
 }
 
+// Queries / Mutations
 const CURRENT_USER = gql`
   query {
     me {

@@ -16,45 +16,9 @@ import { gql } from "apollo-boost";
 import Error from "../Shared/Error";
 
 export default function Login({ setExistingUser }) {
-  // MUI component styling
-  const useStyles = makeStyles((theme) => ({
-    root: {
-      width: "auto",
-      display: "block",
-      marginLeft: theme.spacing(3),
-      marginRight: theme.spacing(3),
-      [theme.breakpoints.up("md")]: {
-        width: 400,
-        marginLeft: "auto",
-        marginRight: "auto",
-      },
-    },
-    paper: {
-      marginTop: theme.spacing(8),
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      padding: theme.spacing(2),
-    },
-    avatar: {
-      margin: theme.spacing(1),
-      backgroundColor: theme.palette.primary.main,
-    },
-    form: {
-      width: "100%",
-      marginTop: theme.spacing(1),
-      marginBottom: theme.spacing(1),
-    },
-    formButton: {
-      marginBottom: theme.spacing(1),
-    },
-    submit: {
-      marginTop: theme.spacing(2),
-      marginBottom: theme.spacing(2),
-    },
-  }));
+  // Hook into MUI stylesheet
   const classes = useStyles();
-
+  
   // Component state
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -131,6 +95,7 @@ export default function Login({ setExistingUser }) {
   );
 }
 
+// Queries / Mutations
 const AUTH_USER = gql`
   mutation($username: String!, $password: String!) {
     tokenAuth(username: $username, password: $password) {
@@ -138,3 +103,41 @@ const AUTH_USER = gql`
     }
   }
 `;
+
+// MUI component styling
+const useStyles = makeStyles((theme) => ({
+  root: {
+    width: "auto",
+    display: "block",
+    marginLeft: theme.spacing(3),
+    marginRight: theme.spacing(3),
+    [theme.breakpoints.up("md")]: {
+      width: 400,
+      marginLeft: "auto",
+      marginRight: "auto",
+    },
+  },
+  paper: {
+    marginTop: theme.spacing(8),
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    padding: theme.spacing(2),
+  },
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.primary.main,
+  },
+  form: {
+    width: "100%",
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(1),
+  },
+  formButton: {
+    marginBottom: theme.spacing(1),
+  },
+  submit: {
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(2),
+  },
+}));

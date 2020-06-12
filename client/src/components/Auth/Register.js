@@ -29,56 +29,10 @@ const SlideTransition = React.forwardRef((props, ref) => {
 });
 
 export default function Register({ setExistingUser }) {
-  // First arg to makeStyles input function provides access to global MUI theme
-  // from React context
-  // https://material-ui.com/styles/api/#makestyles-styles-options-hook
-  const useStyles = makeStyles((theme) => ({
-    root: {
-      width: "auto",
-      display: "block",
-      marginLeft: theme.spacing(3),
-      marginRight: theme.spacing(3),
-      [theme.breakpoints.up("md")]: {
-        width: 400,
-        marginLeft: "auto",
-        marginRight: "auto",
-      },
-    },
-    paper: {
-      marginTop: theme.spacing(8),
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      padding: theme.spacing(2),
-    },
-    avatar: {
-      margin: theme.spacing(1),
-      backgroundColor: theme.palette.primary.main,
-    },
-    form: {
-      width: "100%",
-      marginTop: theme.spacing(1),
-      marginBottom: theme.spacing(1),
-    },
-    formButton: {
-      marginBottom: theme.spacing(1),
-    },
-    submit: {
-      marginTop: theme.spacing(2),
-      marginBottom: theme.spacing(2),
-    },
-    dialogText: {
-      textAlign: "center",
-    },
-    dialogIcon: {
-      padding: "0px 2px 2px 0px",
-      verticalAlign: "middle",
-    },
-    dialogButton: {
-      width: "100%",
-    },
-  }));
+  // Hook into MUI stylesheet
   const classes = useStyles();
+
+  // Component state
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -198,6 +152,7 @@ export default function Register({ setExistingUser }) {
   );
 }
 
+// Queries / Mutations
 const CREATE_USER = gql`
   mutation($username: String!, $email: String!, $password: String!) {
     createUser(username: $username, email: $email, password: $password) {
@@ -208,3 +163,54 @@ const CREATE_USER = gql`
     }
   }
 `;
+
+// MUI component styling
+// First arg to makeStyles input function provides access to global MUI theme
+// from React context
+// https://material-ui.com/styles/api/#makestyles-styles-options-hook
+const useStyles = makeStyles((theme) => ({
+  root: {
+    width: "auto",
+    display: "block",
+    marginLeft: theme.spacing(3),
+    marginRight: theme.spacing(3),
+    [theme.breakpoints.up("md")]: {
+      width: 400,
+      marginLeft: "auto",
+      marginRight: "auto",
+    },
+  },
+  paper: {
+    marginTop: theme.spacing(8),
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    padding: theme.spacing(2),
+  },
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.primary.main,
+  },
+  form: {
+    width: "100%",
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(1),
+  },
+  formButton: {
+    marginBottom: theme.spacing(1),
+  },
+  submit: {
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(2),
+  },
+  dialogText: {
+    textAlign: "center",
+  },
+  dialogIcon: {
+    padding: "0px 2px 2px 0px",
+    verticalAlign: "middle",
+  },
+  dialogButton: {
+    width: "100%",
+  },
+}));

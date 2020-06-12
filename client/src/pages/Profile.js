@@ -20,6 +20,7 @@ export default function Profile() {
   );
 }
 
+// Queries / Mutations
 const CURRENT_USER = gql`
   query {
     me {
