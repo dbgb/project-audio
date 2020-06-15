@@ -118,7 +118,14 @@ export default function CreateTrack() {
                   {file ? "File selected" : "Select audio file"}
                 </Button>
                 <Typography display="inline" variant="subtitle2">
-                  {file && file.name}
+                  {/* Truncate display of excessively long track names */}
+                  {file && (
+                    <span>
+                      {file.name.length > 30
+                        ? file.name.substring(0, 30) + "\u2026" // Unicode ellipsis
+                        : file.name}
+                    </span>
+                  )}
                 </Typography>
               </label>
             </FormControl>
