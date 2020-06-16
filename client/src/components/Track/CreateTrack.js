@@ -18,6 +18,11 @@ import {
   CloudUpload,
   Radio,
 } from "@material-ui/icons";
+import { useMutation } from "@apollo/react-hooks";
+import { gql } from "apollo-boost";
+import axios from "axios";
+import Error from "../Shared/Error";
+import Loading from "../Shared/Loading";
 
 export default function CreateTrack() {
   // Hook into MUI stylesheet
@@ -28,13 +33,10 @@ export default function CreateTrack() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [file, setFile] = useState("");
+  const [uploading, setUploading] = useState(false);
+  const [createTrack, { error: createTrackError }] = useMutation(CREATE_TRACK);
 
   // Handlers
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(file);
-  };
-
   const handleCancel = (e) => {
     e.preventDefault();
     // Close dialog model and reset track metadata state
@@ -48,6 +50,48 @@ export default function CreateTrack() {
     // Discard all but first file from uploaded files array
     let audioFile = e.target.files.item(0);
     setFile(audioFile);
+  };
+
+  const handleAudioUpload = async () => {
+    // Use FormData Web API to create Cloudinary API compatible upload object
+    // re: https://cloudinary.com/documentation/upload_images#uploading_with_a_direct_call_to_the_rest_api
+    let formData = new FormData();
+    formData.append("file", file);
+    formData.append("resource_type", "raw");
+    formData.append("cloud_name", "dbgb");
+    formData.append("upload_preset", "project-audio");
+    try {
+      // Use Axios to send file via POST request to Cloudinary REST API
+      // then return object with appropriate status and response values
+      setUploading(true);
+      const res = await axios.post(
+        "https://api.cloudinary.com/v1_1/dbgb/raw/upload",
+        formData
+      );
+      return { status: "uploaded", response: res.data.url };
+    } catch (error) {
+      // Cancel loading spinner and return error message for handling
+      setUploading(false);
+      return { status: "error", response: error.message };
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const trackUrl = await handleAudioUpload(); // {status: ..., data: ...}
+
+    if (trackUrl.status === "error") {
+      // TODO: Provide user feedback on audio upload error case
+      console.log("Error: ", trackUrl.response);
+      // Do not create track on GraphQL backend in error case
+      return;
+    }
+
+    // After successful audio upload, create track on GraphQL backend with returned url
+    await createTrack({ variables: { title, description, url: trackUrl } });
+    // Reset loading state, then close dialog on upload success
+    setUploading(false);
+    setOpen(false);
   };
 
   // Render component
@@ -135,24 +179,46 @@ export default function CreateTrack() {
             </FormControl>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleCancel} startIcon={<Delete />}>
+            <Button
+              onClick={handleCancel}
+              startIcon={<Delete />}
+              disabled={uploading}
+            >
               Cancel
             </Button>
             <Button
               className={classes.upload}
               onClick={handleSubmit}
               startIcon={<CloudUpload />}
-              disabled={!(title.trim() && description.trim() && file)}
+              disabled={
+                uploading || !(title.trim() && description.trim() && file)
+              }
             >
-              Upload
+              {uploading ? <Loading size={24} /> : "Upload"}
             </Button>
           </DialogActions>
           {/* Form body end */}
         </form>
+        {/* Fail state feedback */}
+        {/* TODO: Set uploading to false in case of GraphQL backend error */}
+        {createTrackError && <Error error={createTrackError} />}
       </Dialog>
     </>
   );
 }
+
+// Queries / Mutations
+const CREATE_TRACK = gql`
+  mutation($title: String!, $description: String!, $url: String!) {
+    createTrack(title: $title, description: $description, url: $url) {
+      track {
+        title
+        description
+        url
+      }
+    }
+  }
+`;
 
 // MUI component styling
 const useStyles = makeStyles((theme) => ({
