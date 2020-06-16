@@ -37,13 +37,10 @@ export default function Register({ setExistingUser }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [
-    createUser,
-    { loading: mutationLoading, error: mutationError },
-  ] = useMutation(CREATE_USER);
+  const [createUser, { loading, error }] = useMutation(CREATE_USER);
 
   // Handlers
-  const handleSubmit = async (e, createUser) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     await createUser({ variables: { username, email, password } });
     setDialogOpen(true);
@@ -57,10 +54,7 @@ export default function Register({ setExistingUser }) {
           <Gavel />
         </Avatar>
         <Typography variant="h5">Create User Account</Typography>
-        <form
-          className={classes.form}
-          onSubmit={(e) => handleSubmit(e, createUser)}
-        >
+        <form className={classes.form} onSubmit={(e) => handleSubmit(e)}>
           <FormControl margin="normal" required fullWidth>
             <InputLabel htmlFor="username">Username</InputLabel>
             <Input
@@ -100,14 +94,11 @@ export default function Register({ setExistingUser }) {
               variant="contained"
               color="primary"
               disabled={
-                mutationLoading ||
-                !username.trim() ||
-                !email.trim() ||
-                !password.trim()
+                loading || !username.trim() || !email.trim() || !password.trim()
               }
             >
               {/* Loading state feedback */}
-              {mutationLoading ? "Registering..." : "Register"}
+              {loading ? "Registering..." : "Register"}
             </Button>
             <Button
               variant="outlined"
@@ -119,7 +110,7 @@ export default function Register({ setExistingUser }) {
           </ButtonGroup>
         </form>
         {/* Fail state feedback */}
-        {mutationError && <Error error={mutationError} />}
+        {error && <Error error={error} />}
       </Paper>
       {/* Success state feedback */}
       <Dialog
