@@ -112,12 +112,16 @@ export default function CreateTrack() {
                   variant="contained"
                   color={file ? "secondary" : "primary"}
                   component="span"
-                  className={classes.audioInputButton}
+                  className={classes.audioInputRow}
                   endIcon={<LibraryMusicOutlined />}
                 >
                   {file ? "File selected" : "Select audio file"}
                 </Button>
-                <Typography display="inline" variant="subtitle2">
+                <Typography
+                  display="inline"
+                  variant="subtitle2"
+                  className={classes.audioInputRow}
+                >
                   {/* Truncate display of excessively long track names */}
                   {file && (
                     <span>
@@ -150,6 +154,7 @@ export default function CreateTrack() {
   );
 }
 
+// MUI component styling
 const useStyles = makeStyles((theme) => ({
   fab: {
     position: "fixed",
@@ -175,9 +180,8 @@ const useStyles = makeStyles((theme) => ({
   audioInput: {
     display: "none",
   },
-  audioInputButton: {
-    margin: theme.spacing(1),
-    marginTop: theme.spacing(2),
+  audioInputRow: {
+    margin: theme.spacing(1.5),
   },
   upload: {
     color: "green",
