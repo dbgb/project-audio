@@ -40,7 +40,7 @@ export default function TrackList({ tracks }) {
                     </Link>
                   }
                 />
-                <AudioPlayer />
+                <AudioPlayer url={track.url} />
               </ListItem>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails className={classes.details}>
