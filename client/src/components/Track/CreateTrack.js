@@ -96,6 +96,9 @@ export default function CreateTrack() {
     // Reset loading state, then close dialog on upload success
     setUploading(false);
     setOpen(false);
+    setTitle("");
+    setDescription("");
+    setFile("");
   };
 
   // Render component
@@ -130,6 +133,7 @@ export default function CreateTrack() {
               <TextField
                 variant="outlined"
                 label="Title"
+                value={title}
                 className={classes.textField}
                 onChange={(e) => setTitle(e.target.value)}
               ></TextField>
@@ -138,6 +142,7 @@ export default function CreateTrack() {
               <TextField
                 variant="outlined"
                 label="Description"
+                value={description}
                 className={classes.textField}
                 onChange={(e) => setDescription(e.target.value)}
                 multiline
