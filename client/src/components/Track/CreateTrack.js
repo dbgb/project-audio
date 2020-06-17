@@ -105,7 +105,9 @@ export default function CreateTrack() {
     }
 
     // After successful audio upload, create track on GraphQL backend with returned url
-    await createTrack({ variables: { title, description, url: trackUrl } });
+    await createTrack({
+      variables: { title, description, url: trackUrl.response },
+    });
     // Reset loading state, then close dialog on upload success
     setUploading(false);
     setOpen(false);
