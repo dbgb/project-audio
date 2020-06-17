@@ -8,6 +8,7 @@ import {
   DialogContent,
   DialogActions,
   FormControl,
+  FormHelperText,
   TextField,
   Typography,
 } from "@material-ui/core";
@@ -35,6 +36,7 @@ export default function CreateTrack() {
   const [description, setDescription] = useState("");
   const [file, setFile] = useState("");
   const [uploading, setUploading] = useState(false);
+  const [fileSizeError, setFileSizeError] = useState("");
   const [createTrack, { error: createTrackError }] = useMutation(CREATE_TRACK, {
     // Update main track listing UI after creating new tracks
     refetchQueries: [{ query: GET_TRACKS }],
@@ -53,6 +55,17 @@ export default function CreateTrack() {
   const handleAudioChange = (e) => {
     // Discard all but first file from uploaded files array
     let audioFile = e.target.files.item(0);
+    // Reject files over allowed size
+    const fileSizeLimit = 20000000; // 20MB
+    if (audioFile.size > fileSizeLimit) {
+      setFileSizeError(
+        `Audio file size must not exceed ${fileSizeLimit / 1e6}MB.`
+      );
+      setFile("");
+      return;
+    }
+    // Reset fileSizeError message in case of user retrying after previous attempt
+    setFileSizeError("");
     setFile(audioFile);
   };
 
@@ -149,7 +162,10 @@ export default function CreateTrack() {
                 rows="3"
               ></TextField>
             </FormControl>
-            <FormControl className={classes.audioInputWrapper}>
+            <FormControl
+              className={classes.audioInputWrapper}
+              error={!!fileSizeError}
+            >
               {/* Use MUI button as file upload selector */}
               {/* re: https://material-ui.com/components/buttons/#upload-button */}
               <input
@@ -184,6 +200,7 @@ export default function CreateTrack() {
                     </span>
                   )}
                 </Typography>
+                <FormHelperText>{fileSizeError}</FormHelperText>
               </label>
             </FormControl>
           </DialogContent>
@@ -208,7 +225,7 @@ export default function CreateTrack() {
           </DialogActions>
           {/* Form body end */}
         </form>
-        {/* Fail state feedback */}
+        {/* Create track error handling */}
         {/* TODO: Set uploading to false in case of GraphQL backend error */}
         {createTrackError && <Error error={createTrackError} />}
       </Dialog>
@@ -256,7 +273,7 @@ const useStyles = makeStyles((theme) => ({
     display: "none",
   },
   audioInputRow: {
-    margin: theme.spacing(1.5),
+    margin: theme.spacing(1.5, 1),
   },
   upload: {
     color: "green",
