@@ -1,4 +1,6 @@
-# TODO: Assign appropriate app name and description
+# projectAudio
+
+## TODO: Assign final app name and description
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 

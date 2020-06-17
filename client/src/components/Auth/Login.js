@@ -18,14 +18,11 @@ import Error from "../Shared/Error";
 export default function Login({ setExistingUser }) {
   // Hook into MUI stylesheet
   const classes = useStyles();
-  
+
   // Component state
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [
-    tokenAuth,
-    { loading: mutationLoading, error: mutationError },
-  ] = useMutation(AUTH_USER);
+  const [tokenAuth, { loading, error }] = useMutation(AUTH_USER);
   const client = useApolloClient();
 
   // Handlers
@@ -76,9 +73,9 @@ export default function Login({ setExistingUser }) {
               type="submit"
               variant="contained"
               color="primary"
-              disabled={mutationLoading || !username.trim() || !password.trim()}
+              disabled={loading || !username.trim() || !password.trim()}
             >
-              {mutationLoading ? "Logging in..." : "Log in"}
+              {loading ? "Logging in..." : "Log in"}
             </Button>
             <Button
               variant="outlined"
@@ -89,7 +86,7 @@ export default function Login({ setExistingUser }) {
             </Button>
           </ButtonGroup>
         </form>
-        {mutationError && <Error error={mutationError} />}
+        {error && <Error error={error} />}
       </Paper>
     </div>
   );

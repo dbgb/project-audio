@@ -23,6 +23,7 @@ import { gql } from "apollo-boost";
 import axios from "axios";
 import Error from "../Shared/Error";
 import Loading from "../Shared/Loading";
+import { GET_TRACKS } from "../../pages/App";
 
 export default function CreateTrack() {
   // Hook into MUI stylesheet
@@ -34,7 +35,10 @@ export default function CreateTrack() {
   const [description, setDescription] = useState("");
   const [file, setFile] = useState("");
   const [uploading, setUploading] = useState(false);
-  const [createTrack, { error: createTrackError }] = useMutation(CREATE_TRACK);
+  const [createTrack, { error: createTrackError }] = useMutation(CREATE_TRACK, {
+    // Update main track listing UI after creating new tracks
+    refetchQueries: [{ query: GET_TRACKS }],
+  });
 
   // Handlers
   const handleCancel = (e) => {

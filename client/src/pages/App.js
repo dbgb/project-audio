@@ -22,7 +22,7 @@ export default function App() {
 
   // Render component
   return (
-    <div className={classes.container}>
+    <div className={classes.root}>
       <Search />
       <CreateTrack />
       <TrackList tracks={tracks} />
@@ -31,7 +31,7 @@ export default function App() {
 }
 
 // Queries / Mutations
-const GET_TRACKS = gql`
+export const GET_TRACKS = gql`
   query {
     tracks {
       id
@@ -51,4 +51,10 @@ const GET_TRACKS = gql`
 `;
 
 // MUI component styling
-const useStyles = makeStyles((theme) => ({}));
+const useStyles = makeStyles((theme) => ({
+  // root: {
+  //   display: "flex",
+  //   flexDirection: "column",
+  //   justifyContent: "space-evenly",
+  // },
+}));
