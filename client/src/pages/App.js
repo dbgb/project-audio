@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { gql } from "apollo-boost";
 import { useQuery } from "@apollo/react-hooks";
@@ -14,18 +14,21 @@ export default function App() {
 
   // Component state
   const { loading, error, data } = useQuery(GET_TRACKS);
+  const [searchResults, setSearchResults] = useState([]);
 
   if (loading) return <Loading />;
   if (error) return <Error error={error} />;
 
-  const tracks = data.tracks;
+  const allTracks = data.tracks;
 
   // Render component
   return (
     <div className={classes.root}>
-      <Search />
+      <Search setSearchResults={setSearchResults} />
+      <TrackList
+        tracks={searchResults.length > 0 ? searchResults : allTracks}
+      />
       <CreateTrack />
-      <TrackList tracks={tracks} />
     </div>
   );
 }
