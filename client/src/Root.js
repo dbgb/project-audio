@@ -6,6 +6,7 @@ import App from "./pages/App";
 import Auth from "./components/Auth";
 import Profile from "./pages/Profile";
 import Header from "./components/Shared/Header";
+import Footer from "./components/Shared/Footer";
 import Error from "./components/Shared/Error";
 import Loading from "./components/Shared/Loading";
 
@@ -32,6 +33,7 @@ export default function Root() {
           <Route exact path="/" component={App} />
           <Route path="/profile/:id" component={Profile} />
         </Switch>
+        <Footer />
       </>
     </Router>
   );
