@@ -56,7 +56,8 @@ export default function CreateTrack() {
     // Discard all but first file from uploaded files array
     let audioFile = e.target.files.item(0);
     // Reject files over allowed size
-    const fileSizeLimit = 20000000; // 20MB
+    // Cloudinary free tier raw file size limit is 10MB
+    const fileSizeLimit = 10000000;
     if (audioFile.size > fileSizeLimit) {
       setFileSizeError(
         `Audio file size must not exceed ${fileSizeLimit / 1e6}MB.`
