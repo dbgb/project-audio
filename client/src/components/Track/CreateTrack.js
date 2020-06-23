@@ -6,6 +6,7 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
+  DialogContentText,
   DialogActions,
   FormControl,
   FormHelperText,
@@ -25,6 +26,9 @@ import axios from "axios";
 import Error from "../Shared/Error";
 import Loading from "../Shared/Loading";
 import { GET_TRACKS } from "../../pages/App";
+
+// Constants
+const fileSizeLimit = 10000000; // Bytes -> 10MB
 
 export default function CreateTrack() {
   // Hook into MUI stylesheet
@@ -57,7 +61,7 @@ export default function CreateTrack() {
     let audioFile = e.target.files.item(0);
     // Reject files over allowed size
     // Cloudinary free tier raw file size limit is 10MB
-    const fileSizeLimit = 10000000;
+
     if (audioFile.size > fileSizeLimit) {
       setFileSizeError(
         `Audio file size must not exceed ${fileSizeLimit / 1e6}MB.`
@@ -144,6 +148,9 @@ export default function CreateTrack() {
         <form className={classes.root}>
           <DialogTitle>Create new track</DialogTitle>
           <DialogContent>
+            <DialogContentText variant="caption" align="center">
+              Maximum upload file size is {fileSizeLimit / 1e6}MB.
+            </DialogContentText>
             {/* Form body start */}
             <FormControl fullWidth>
               <TextField
