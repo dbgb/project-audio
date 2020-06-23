@@ -11,7 +11,7 @@ export default function Header({ currentUser }) {
 
   // Render component
   return (
-    <AppBar position="static" className={classes.root}>
+    <AppBar position="static">
       <Toolbar>
         <Link to="/" className={classes.growFirst}>
           <RadioTwoTone className={classes.logo} />
@@ -39,15 +39,10 @@ export default function Header({ currentUser }) {
 
 // MUI component styling
 const useStyles = makeStyles((theme) => ({
-  root: {
-    margin: 0,
-    padding: 0,
-  },
   growFirst: {
     display: "flex",
     flexGrow: 1,
     alignItems: "center",
-
     textDecoration: "none",
     color: "#eee",
   },

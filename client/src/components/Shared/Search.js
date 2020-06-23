@@ -89,18 +89,13 @@ const GET_SEARCH_RESULTS = gql`
 // MUI Component Styling
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: "auto",
-    display: "block",
-    [theme.breakpoints.up("md")]: {
-      width: "700px",
-      marginLeft: "auto",
-      marginRight: "auto",
-    },
+    display: "flex",
+    justifyContent: "space-evenly",
   },
   paper: {
     display: "flex",
     flexDirection: "center",
-    // flexBasis: "700px",
+    flexBasis: "700px",
     alignItems: "center",
     margin: theme.spacing(1),
   },

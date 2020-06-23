@@ -7,7 +7,7 @@ export default function Footer() {
 
   // Render footer
   return (
-    <div className={classes.root}>
+    <footer className={classes.root}>
       Made by
       <a
         className={classes.footerLink}
@@ -27,7 +27,7 @@ export default function Footer() {
         &nbsp;icons8
       </a>
       .
-    </div>
+    </footer>
   );
 }
 
@@ -37,9 +37,9 @@ const useStyles = makeStyles((theme) => ({
     position: "fixed",
     bottom: theme.spacing(2),
     left: theme.spacing(2),
+    zIndex: -1,
     color: theme.palette.secondary.main,
     fontSize: ".8em",
-    zIndex: -1,
   },
   footerLink: {
     textDecorationStyle: "dotted",
