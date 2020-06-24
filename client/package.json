@@ -16,7 +16,6 @@
     "moment": "^2.26.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-player": "^2.1.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1"
   },
