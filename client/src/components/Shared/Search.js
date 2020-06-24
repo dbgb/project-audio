@@ -23,7 +23,7 @@ export default function Search({ setSearchResults }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     // Process search form
-    getSearch({ variables: { search: searchField } });
+    getSearch({ variables: { search: searchField.toLowerCase() } });
   };
 
   const handleClear = (e) => {
@@ -91,6 +91,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
     justifyContent: "space-evenly",
+    marginTop: theme.spacing(1),
   },
   paper: {
     display: "flex",
