@@ -60,6 +60,6 @@ const CURRENT_USER = gql`
 const useStyles = makeStyles((theme) => ({
   main: {
     // Implements flexbox sticky footer when combined with #root element styling
-    flexGrow: 1,
+    flex: "1 0 auto",
   },
 }));
