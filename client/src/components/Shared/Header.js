@@ -1,13 +1,38 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { AppBar, Toolbar, Typography } from "@material-ui/core";
-import { RadioTwoTone, LibraryMusic } from "@material-ui/icons";
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Menu,
+  MenuItem,
+  IconButton,
+} from "@material-ui/core";
+import {
+  Menu as Hamburger,
+  RadioTwoTone,
+  Person,
+  MusicNote,
+} from "@material-ui/icons";
 import { makeStyles } from "@material-ui/core/styles";
 import Logout from "../Auth/Logout";
 
 export default function Header({ currentUser }) {
   // Hook into MUI stylesheet
   const classes = useStyles();
+
+  // Component State
+  // Store anchor element for menu
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  // Handlers
+  const handleClick = (e) => {
+    setAnchorEl(e.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   // Render component
   return (
@@ -20,16 +45,44 @@ export default function Header({ currentUser }) {
             {process.env.REACT_APP_NAME || "Project Name"}
           </Typography>
         </Link>
-        {/* Navbar start */}
         {currentUser && (
           <>
+            {/* Navbar start */}
             <Link
               to={`/profile/${currentUser.id}`}
               className={classes.growAfter}
             >
-              <LibraryMusic className={classes.profileIcon}></LibraryMusic>
+              <MusicNote className={classes.navIcon} />
             </Link>
-            <Logout />
+            <Link
+              to={`/profile/${currentUser.id}`}
+              className={classes.growAfter}
+            >
+              <Person className={classes.navIcon} />
+            </Link>
+            {/* Menu start*/}
+            <IconButton
+              className={classes.menuButton}
+              aria-controls="navMenu"
+              aria-haspopup="true"
+              size="small"
+              onClick={handleClick}
+            >
+              <Hamburger />
+            </IconButton>
+            <Menu
+              id="navMenu"
+              anchorEl={anchorEl}
+              keepMounted
+              open={!!anchorEl}
+              onClose={handleClose}
+            >
+              <MenuItem>
+                <Logout />
+              </MenuItem>
+            </Menu>
+            {/* Menu end */}
+            {/* Navbar end */}
           </>
         )}
       </Toolbar>
@@ -52,14 +105,17 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     textDecoration: "none",
     color: "#eee",
-    margin: theme.spacing(2),
+    margin: theme.spacing(0.5),
   },
   logo: {
     marginRight: theme.spacing(2),
     fontSize: "3em",
   },
-  profileIcon: {
+  navIcon: {
     marginRight: theme.spacing(1),
     fontSize: "1.5em",
+  },
+  menuButton: {
+    color: "#eee",
   },
 }));

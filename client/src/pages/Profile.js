@@ -16,11 +16,11 @@ export default function Profile() {
   let dateJoined = moment(data.me.dateJoined).format("MMMM Do YYYY, h:mm:ss a");
 
   return (
-    <div className="App">
+    <>
       <div>{`Welcome ${data.me.username}! (id: ${data.me.id})`}</div>
       <div>Email: {data.me.email}</div>
       <div>Date Joined: {dateJoined}</div>
-    </div>
+    </>
   );
 }
 
