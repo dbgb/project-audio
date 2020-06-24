@@ -26,8 +26,11 @@ export default function TrackList({ tracks }) {
       <List className={classes.list}>
         {tracks.map((track) => (
           <ExpansionPanel key={track.id}>
-            <ExpansionPanelSummary expandIcon={<ExpandMore />}>
-              <ListItem>
+            <ExpansionPanelSummary
+              classes={{ content: classes.summary }}
+              expandIcon={<ExpandMore />}
+            >
+              <ListItem disableGutters dense>
                 <LikeTrack />
                 <ListItemText
                   primary={track.title}
@@ -65,6 +68,9 @@ const useStyles = makeStyles((theme) => ({
   },
   list: {
     flexBasis: "700px",
+  },
+  summary: {
+    margin: 0,
   },
   details: {
     justifyContent: "center",
