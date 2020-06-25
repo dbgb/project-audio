@@ -11,7 +11,7 @@ export default function Logout() {
   const handleSubmit = () => {
     // Remove JWT from client
     localStorage.removeItem("authToken");
-    //Then, update Apollo client state to reflect this change
+    // Then, update Apollo client state to reflect this change
     client.writeData({ data: { isLoggedIn: false } });
   };
 

@@ -50,7 +50,7 @@ export default function TrackList({ tracks }) {
               <Typography>{track.description}</Typography>
             </ExpansionPanelDetails>
             <ExpansionPanelActions>
-              <UpdateTrack />
+              <UpdateTrack track={track} />
               <DeleteTrack />
             </ExpansionPanelActions>
           </ExpansionPanel>
