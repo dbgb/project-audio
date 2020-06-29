@@ -77,6 +77,9 @@ const LIKE_TRACK = gql`
 const useStyles = makeStyles((theme) => ({
   likeButton: {
     display: "flex",
+    "&:hover": {
+      backgroundColor: "transparent",
+    },
   },
   label: {
     flexDirection: "column-reverse",
