@@ -37,7 +37,6 @@ export const GET_TRACKS = gql`
       title
       description
       url
-      createdAt
       postedBy {
         id
         username

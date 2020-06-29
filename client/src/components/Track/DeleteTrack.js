@@ -18,9 +18,26 @@ export default function DeleteTrack({ track }) {
 
   // Component state
   const [warn, setWarn] = useState(false);
+
+  const updateCache = (cache, { data: { deleteTrack } }) => {
+    // function: (cache: DataProxy, mutationResult: FetchResult)
+    // Retrieve cached query data
+    const data = cache.readQuery({ query: GET_TRACKS });
+    // Create replacement cache object with deleted track removed (no mutation)
+    const index = data.tracks.findIndex(
+      (track) => Number(track.id) === deleteTrack.trackId
+    );
+    const tracks = [
+      ...data.tracks.slice(0, index),
+      ...data.tracks.slice(index + 1),
+    ];
+    // Refresh cache to trigger UI update after deleting tracks
+    cache.writeQuery({ query: GET_TRACKS, data: { tracks } });
+  };
+
   const [deleteTrack, { loading, error }] = useMutation(DELETE_TRACK, {
-    // Update main track listing UI after deleting track
-    refetchQueries: [{ query: GET_TRACKS }],
+    // Update cache manually to refresh UI after deleting track
+    update: updateCache,
   });
 
   // Handlers

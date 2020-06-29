@@ -41,9 +41,20 @@ export default function CreateTrack() {
   const [file, setFile] = useState("");
   const [uploading, setUploading] = useState(false);
   const [fileSizeError, setFileSizeError] = useState("");
+
+  const updateCache = (cache, { data: { createTrack } }) => {
+    // Retrieve cached query data
+    const data = cache.readQuery({ query: GET_TRACKS });
+    // Create replacement cache object with new track added (no mutation)
+    // N.B. copy must have same gql data shape as GET_TRACKS
+    const tracks = data.tracks.concat(createTrack.track);
+    // Refresh cache to trigger UI update after creating new tracks
+    cache.writeQuery({ query: GET_TRACKS, data: { tracks } });
+  };
+
   const [createTrack, { error: createTrackError }] = useMutation(CREATE_TRACK, {
-    // Update main track listing UI after creating new tracks
-    refetchQueries: [{ query: GET_TRACKS }],
+    // Update cache manually to refresh UI after creating new track
+    update: updateCache,
   });
 
   // Handlers
@@ -248,9 +259,17 @@ const CREATE_TRACK = gql`
   mutation($title: String!, $description: String!, $url: String!) {
     createTrack(title: $title, description: $description, url: $url) {
       track {
+        id
         title
         description
         url
+        postedBy {
+          id
+          username
+        }
+        likes {
+          id
+        }
       }
     }
   }
