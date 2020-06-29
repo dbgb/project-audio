@@ -5,6 +5,7 @@ import { IconButton, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { Favorite, FavoriteBorder } from "@material-ui/icons";
 import { UserContext } from "../../Root";
+import { CURRENT_USER } from "../../Root";
 import Error from "../Shared/Error";
 
 export default function LikeTrack({ trackId, likeCount }) {
@@ -19,7 +20,9 @@ export default function LikeTrack({ trackId, likeCount }) {
       return track.id === trackId;
     }) > -1;
   // Component state
-  const [likeTrack, { error }] = useMutation(LIKE_TRACK);
+  const [likeTrack, { error }] = useMutation(LIKE_TRACK, {
+    refetchQueries: [{ query: CURRENT_USER }],
+  });
 
   // Handlers
   const handleLike = async (e) => {
@@ -36,7 +39,6 @@ export default function LikeTrack({ trackId, likeCount }) {
     }
   };
 
-  // TODO: Change to correct icon on like without page refresh ref Apollo FetchPolicy
   // Render component
   return (
     <Fragment>
