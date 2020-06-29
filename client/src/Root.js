@@ -19,7 +19,10 @@ export default function Root() {
   const classes = useStyles();
 
   // Component State
-  const { loading, error, data } = useQuery(CURRENT_USER);
+  const { loading, error, data } = useQuery(CURRENT_USER, {
+    // Use cache, but also send network request to ensure up to date data
+    fetchPolicy: "cache-and-network",
+  });
   // Hook into Apollo client state to allow direct write
   const client = useApolloClient();
 
