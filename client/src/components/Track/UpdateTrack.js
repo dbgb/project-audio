@@ -122,6 +122,7 @@ export default function UpdateTrack({ track }) {
     setOpen(false);
     setFile("");
   };
+
   // If current user and track owner match, render component
   return (
     isTrackPoster && (

@@ -51,7 +51,7 @@ export default function TrackList({ tracks }) {
             </ExpansionPanelDetails>
             <ExpansionPanelActions>
               <UpdateTrack track={track} />
-              <DeleteTrack />
+              <DeleteTrack track={track} />
             </ExpansionPanelActions>
           </ExpansionPanel>
         ))}
