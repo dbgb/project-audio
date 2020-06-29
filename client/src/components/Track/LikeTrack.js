@@ -13,10 +13,11 @@ export default function LikeTrack({ trackId, likeCount }) {
 
   // Determine if current user currently likes track
   const currentUser = useContext(UserContext);
-  const isLiked = currentUser.likeSet.findIndex(({ track }) => {
-    return track.id === trackId;
-  });
-
+  const isLiked =
+    currentUser.likeSet.findIndex(({ track }) => {
+      // Return boolean instead of cryptic '-1' for improved code readability
+      return track.id === trackId;
+    }) > -1;
   // Component state
   const [likeTrack, { error }] = useMutation(LIKE_TRACK);
 
@@ -25,7 +26,7 @@ export default function LikeTrack({ trackId, likeCount }) {
     e.preventDefault();
     e.stopPropagation();
 
-    if (isLiked === -1) {
+    if (!isLiked) {
       // Only allow like if user hasn't already liked track
       await likeTrack({
         variables: {
@@ -48,10 +49,10 @@ export default function LikeTrack({ trackId, likeCount }) {
         <Typography className={classes.likeCount} variant="subtitle2">
           {likeCount}
         </Typography>
-        {isLiked === -1 ? (
-          <FavoriteBorder className={classes.likeIcon} />
-        ) : (
+        {isLiked ? (
           <Favorite className={classes.likeIcon} />
+        ) : (
+          <FavoriteBorder className={classes.likeIcon} />
         )}
       </IconButton>
       {error && <Error error={error} />}
