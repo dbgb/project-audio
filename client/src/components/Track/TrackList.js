@@ -31,7 +31,7 @@ export default function TrackList({ tracks }) {
               expandIcon={<ExpandMore />}
             >
               <ListItem disableGutters dense>
-                <LikeTrack />
+                <LikeTrack trackId={track.id} likeCount={track.likes.length} />
                 <ListItemText
                   primary={track.title}
                   secondary={

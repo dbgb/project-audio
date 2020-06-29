@@ -56,6 +56,11 @@ const CURRENT_USER = gql`
     me {
       id
       username
+      likeSet {
+        track {
+          id
+        }
+      }
     }
   }
 `;

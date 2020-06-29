@@ -184,8 +184,6 @@ class LikeTrack(graphene.Mutation):
         return LikeTrack(user=user, track=track)
 
 
-# TODO: Implement UnlikeTrack - toggle in LikeTrack?
-
 class Mutation(graphene.ObjectType):
     """
     Define base mutation type for tracks app, to be inherited by base query
