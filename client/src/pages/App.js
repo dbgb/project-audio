@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, Fragment } from "react";
 import { gql } from "apollo-boost";
 import { useQuery } from "@apollo/react-hooks";
 import Loading from "../components/Shared/Loading";
@@ -19,13 +19,13 @@ export default function App() {
 
   // Render component
   return (
-    <>
+    <Fragment>
       <Search setSearchResults={setSearchResults} />
       <TrackList
         tracks={searchResults.length > 0 ? searchResults : allTracks}
       />
       <CreateTrack />
-    </>
+    </Fragment>
   );
 }
 

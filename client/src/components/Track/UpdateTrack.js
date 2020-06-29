@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, Fragment } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Button,
@@ -125,7 +125,7 @@ export default function UpdateTrack({ track }) {
   // If current user and track owner match, render component
   return (
     isTrackPoster && (
-      <>
+      <Fragment>
         <IconButton size="small" onClick={() => setOpen(true)}>
           <Edit />
         </IconButton>
@@ -225,7 +225,7 @@ export default function UpdateTrack({ track }) {
           {/* TODO: Set uploading to false in case of GraphQL backend error */}
           {updateTrackError && <Error error={updateTrackError} />}
         </Dialog>
-      </>
+      </Fragment>
     )
   );
 }

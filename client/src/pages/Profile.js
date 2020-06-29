@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { gql } from "apollo-boost";
 import { useQuery } from "@apollo/react-hooks";
 import moment from "moment";
@@ -16,11 +16,11 @@ export default function Profile() {
   let dateJoined = moment(data.me.dateJoined).format("MMMM Do YYYY, h:mm:ss a");
 
   return (
-    <>
+    <Fragment>
       <div>{`Welcome ${data.me.username}! (id: ${data.me.id})`}</div>
       <div>Email: {data.me.email}</div>
       <div>Date Joined: {dateJoined}</div>
-    </>
+    </Fragment>
   );
 }
 

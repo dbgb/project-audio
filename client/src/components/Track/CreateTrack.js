@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, Fragment } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Button,
@@ -123,7 +123,7 @@ export default function CreateTrack() {
 
   // Render component
   return (
-    <>
+    <Fragment>
       {/* Use floating action button as interface for track creation */}
       <Fab
         className={classes.fab}
@@ -239,7 +239,7 @@ export default function CreateTrack() {
         {/* TODO: Set uploading to false in case of GraphQL backend error */}
         {createTrackError && <Error error={createTrackError} />}
       </Dialog>
-    </>
+    </Fragment>
   );
 }
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, Fragment } from "react";
 import { Link } from "react-router-dom";
 import {
   AppBar,
@@ -46,7 +46,7 @@ export default function Header({ currentUser }) {
           </Typography>
         </Link>
         {currentUser && (
-          <>
+          <Fragment>
             {/* Navbar start */}
             <Link
               to={`/profile/${currentUser.id}`}
@@ -83,7 +83,7 @@ export default function Header({ currentUser }) {
             </Menu>
             {/* Menu end */}
             {/* Navbar end */}
-          </>
+          </Fragment>
         )}
       </Toolbar>
     </AppBar>
