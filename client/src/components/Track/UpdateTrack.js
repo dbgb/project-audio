@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Button,
@@ -21,9 +21,10 @@ import {
 import { useMutation } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
 import axios from "axios";
+import { GET_TRACKS } from "../../pages/App";
+import { UserContext } from "../../Root";
 import Error from "../Shared/Error";
 import Loading from "../Shared/Loading";
-import { GET_TRACKS } from "../../pages/App";
 
 // Constants
 const fileSizeLimit = 10000000; // Bytes -> 10MB
@@ -31,7 +32,9 @@ const fileSizeLimit = 10000000; // Bytes -> 10MB
 export default function UpdateTrack({ track }) {
   // Hook into MUI stylesheet
   const classes = useStyles();
-
+  // Determine if the logged in user created the current track
+  const currentUser = useContext(UserContext);
+  const isTrackPoster = track.postedBy.id === currentUser.id;
   // Component state
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState(track.title);
@@ -119,109 +122,111 @@ export default function UpdateTrack({ track }) {
     setOpen(false);
     setFile("");
   };
-  // Render component
+  // If current user and track owner match, render component
   return (
-    <>
-      <IconButton size="small" onClick={() => setOpen(true)}>
-        <Edit />
-      </IconButton>
-      <Dialog
-        open={open}
-        onClose={() => setOpen(false)}
-        className={classes.dialog}
-      >
-        <form className={classes.root}>
-          <DialogTitle>Update track</DialogTitle>
-          <DialogContent>
-            {/* Form body start */}
-            <FormControl fullWidth>
-              <TextField
-                variant="outlined"
-                label="Title"
-                value={title}
-                className={classes.textField}
-                onChange={(e) => setTitle(e.target.value)}
-              ></TextField>
-            </FormControl>
-            <FormControl fullWidth>
-              <TextField
-                variant="outlined"
-                label="Description"
-                value={description}
-                className={classes.textField}
-                onChange={(e) => setDescription(e.target.value)}
-                multiline
-                rows="3"
-              ></TextField>
-            </FormControl>
-            <FormControl
-              className={classes.audioInputWrapper}
-              error={!!fileSizeError}
-            >
-              {/* Use MUI button as file upload selector */}
-              {/* re: https://material-ui.com/components/buttons/#upload-button */}
-              <input
-                id="audio-input"
-                className={classes.audioInput}
-                type="file"
-                accept="audio/*"
-                onChange={handleAudioChange}
-                required
-              />
-              <label htmlFor="audio-input">
-                <Button
-                  variant="contained"
-                  color={file ? "secondary" : "primary"}
-                  component="span"
-                  className={classes.audioInputRow}
-                  endIcon={<LibraryMusicOutlined />}
-                >
-                  {file ? "File selected" : "Select audio file"}
-                </Button>
-                <Typography
-                  display="inline"
-                  variant="subtitle2"
-                  className={classes.audioInputRow}
-                >
-                  {/* Truncate display of excessively long track names */}
-                  {file && (
-                    <span>
-                      {file.name.length > 30
-                        ? file.name.substring(0, 30) + "\u2026" // Unicode ellipsis
-                        : file.name}
-                    </span>
-                  )}
-                </Typography>
-                <FormHelperText>{fileSizeError}</FormHelperText>
-              </label>
-            </FormControl>
-          </DialogContent>
-          <DialogActions>
-            <Button
-              onClick={handleCancel}
-              startIcon={<Delete />}
-              disabled={uploading}
-            >
-              Cancel
-            </Button>
-            <Button
-              className={classes.upload}
-              onClick={handleSubmit}
-              startIcon={<CloudUpload />}
-              disabled={
-                uploading || !(title.trim() && description.trim() && file)
-              }
-            >
-              {uploading ? <Loading size={24} /> : "Upload"}
-            </Button>
-          </DialogActions>
-          {/* Form body end */}
-        </form>
-        {/* Create track error handling */}
-        {/* TODO: Set uploading to false in case of GraphQL backend error */}
-        {updateTrackError && <Error error={updateTrackError} />}
-      </Dialog>
-    </>
+    isTrackPoster && (
+      <>
+        <IconButton size="small" onClick={() => setOpen(true)}>
+          <Edit />
+        </IconButton>
+        <Dialog
+          open={open}
+          onClose={() => setOpen(false)}
+          className={classes.dialog}
+        >
+          <form className={classes.root}>
+            <DialogTitle>Update track</DialogTitle>
+            <DialogContent>
+              {/* Form body start */}
+              <FormControl fullWidth>
+                <TextField
+                  variant="outlined"
+                  label="Title"
+                  value={title}
+                  className={classes.textField}
+                  onChange={(e) => setTitle(e.target.value)}
+                ></TextField>
+              </FormControl>
+              <FormControl fullWidth>
+                <TextField
+                  variant="outlined"
+                  label="Description"
+                  value={description}
+                  className={classes.textField}
+                  onChange={(e) => setDescription(e.target.value)}
+                  multiline
+                  rows="3"
+                ></TextField>
+              </FormControl>
+              <FormControl
+                className={classes.audioInputWrapper}
+                error={!!fileSizeError}
+              >
+                {/* Use MUI button as file upload selector */}
+                {/* re: https://material-ui.com/components/buttons/#upload-button */}
+                <input
+                  id="audio-input"
+                  className={classes.audioInput}
+                  type="file"
+                  accept="audio/*"
+                  onChange={handleAudioChange}
+                  required
+                />
+                <label htmlFor="audio-input">
+                  <Button
+                    variant="contained"
+                    color={file ? "secondary" : "primary"}
+                    component="span"
+                    className={classes.audioInputRow}
+                    endIcon={<LibraryMusicOutlined />}
+                  >
+                    {file ? "File selected" : "Select audio file"}
+                  </Button>
+                  <Typography
+                    display="inline"
+                    variant="subtitle2"
+                    className={classes.audioInputRow}
+                  >
+                    {/* Truncate display of excessively long track names */}
+                    {file && (
+                      <span>
+                        {file.name.length > 30
+                          ? file.name.substring(0, 30) + "\u2026" // Unicode ellipsis
+                          : file.name}
+                      </span>
+                    )}
+                  </Typography>
+                  <FormHelperText>{fileSizeError}</FormHelperText>
+                </label>
+              </FormControl>
+            </DialogContent>
+            <DialogActions>
+              <Button
+                onClick={handleCancel}
+                startIcon={<Delete />}
+                disabled={uploading}
+              >
+                Cancel
+              </Button>
+              <Button
+                className={classes.upload}
+                onClick={handleSubmit}
+                startIcon={<CloudUpload />}
+                disabled={
+                  uploading || !(title.trim() && description.trim() && file)
+                }
+              >
+                {uploading ? <Loading size={24} /> : "Upload"}
+              </Button>
+            </DialogActions>
+            {/* Form body end */}
+          </form>
+          {/* Create track error handling */}
+          {/* TODO: Set uploading to false in case of GraphQL backend error */}
+          {updateTrackError && <Error error={updateTrackError} />}
+        </Dialog>
+      </>
+    )
   );
 }
 
