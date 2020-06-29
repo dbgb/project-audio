@@ -2,7 +2,7 @@ import React, { useState, useContext, Fragment } from "react";
 import { gql } from "apollo-boost";
 import { useMutation } from "@apollo/react-hooks";
 import { makeStyles } from "@material-ui/core/styles";
-import { IconButton, Button } from "@material-ui/core";
+import { IconButton, Button, ClickAwayListener } from "@material-ui/core";
 import { Delete } from "@material-ui/icons";
 import { GET_TRACKS } from "../../pages/App";
 import { UserContext } from "../../Root";
@@ -57,21 +57,24 @@ export default function DeleteTrack({ track }) {
   return (
     isTrackPoster && (
       <Fragment>
-        {warn ? (
-          <Button
-            variant="outlined"
-            size="small"
-            className={classes.warn}
-            startIcon={<Delete />}
-            onClick={handleDelete}
-          >
-            Delete track?
-          </Button>
-        ) : (
-          <IconButton size="small" onClick={() => setWarn(true)}>
-            {loading ? <Loading size={20} /> : <Delete />}
-          </IconButton>
-        )}
+        <ClickAwayListener onClickAway={() => setWarn(false)}>
+          {warn ? (
+            <Button
+              variant="outlined"
+              size="small"
+              className={classes.warn}
+              startIcon={<Delete />}
+              onClick={handleDelete}
+            >
+              Delete track?
+            </Button>
+          ) : (
+            <IconButton size="small" onClick={() => setWarn(true)}>
+              {loading ? <Loading size={20} /> : <Delete />}
+            </IconButton>
+          )}
+        </ClickAwayListener>
+
         {error && <Error error={error} />}
       </Fragment>
     )

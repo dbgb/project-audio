@@ -175,7 +175,6 @@ class LikeTrack(graphene.Mutation):
         if not track:
             raise GraphQLError("Track does not exist.")
 
-        # TODO: prevent duplicate likes
         Like.objects.create(
             user=user,
             track=track
