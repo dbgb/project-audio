@@ -30,7 +30,33 @@ pipenv install
 pipenv run python manage.py runserver <PORT?>
 ```
 
-Then navigate to `localhost` at your port and browser of choice.
+Then navigate to `localhost:<PORT>` in your browser.
+
+## Interacting with the GraphQL API
+
+Navigate to `localhost:<PORT>/graphql` in your browser to explore the API using
+GraphiQL. The [Apollo Client
+Devtools](https://github.com/apollographql/apollo-client-devtools) provide the
+same capabilities, plus the ability to inspect and manipulate the Apollo Client
+cache and store. Alternatively, feel free to point your API tool of choice
+(Postman, Insomnia etc.) at the same `graphql` endpoint as above.
+
+Creating a new user can be done via the `createUser` mutation. For operations
+that require them, auth tokens are granted by supplying valid user credentials
+to the `tokenAuth` mutation eg.
+
+```gql
+mutation($username: String!, $password: String!){
+  tokenAuth(username: <your_username>, password: <your_password> {
+    token
+    payload
+  }
+}
+```
+
+The token returned as part of the mutation response can then be used as a JWT
+authentication header to allow the user to perform any privileged operations
+their account has been granted access to.
 
 ## Managing project model data
 
@@ -43,9 +69,19 @@ Then navigate to `localhost:<PORT>/admin` and log in with the superuser
 credentials. From here, Django admin provides a complete interface for the
 backend CRUD operations.
 
-## Generating production deployment files
+## Deployment
+
+```shell
+heroku login
+. . .
+```
+
+### Generating production deployment files
 
 ```shell
 echo web: gunicorn projectAudio.wsgi > Procfile
+
 pipenv run pip freeze > requirements.txt
+
+pipenv run python manage.py check --deploy
 ```
