@@ -102,8 +102,7 @@ export default function UpdateTrack({ track }) {
     const trackUrl = await handleAudioUpload(); // {status: ..., data: ...}
 
     if (trackUrl.status === "error") {
-      // TODO: Provide user feedback on audio upload error case
-      console.log("Error: ", trackUrl.response);
+      console.error("Error: ", trackUrl.response);
       // Do not update track on GraphQL backend in error case
       return;
     }
@@ -222,8 +221,7 @@ export default function UpdateTrack({ track }) {
             </DialogActions>
             {/* Form body end */}
           </form>
-          {/* Create track error handling */}
-          {/* TODO: Set uploading to false in case of GraphQL backend error */}
+          {/* Update track error handling */}
           {updateTrackError && <Error error={updateTrackError} />}
         </Dialog>
       </Fragment>
