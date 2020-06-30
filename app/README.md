@@ -32,6 +32,17 @@ pipenv run python manage.py runserver <PORT?>
 
 Then navigate to `localhost` at your port and browser of choice.
 
+## Managing project model data
+
+```shell
+# Create a project superuser account
+pipenv run python manage.py createsuperuser
+```
+
+Then navigate to `localhost:<PORT>/admin` and log in with the superuser
+credentials. From here, Django admin provides a complete interface for the
+backend CRUD operations.
+
 ## Generating production deployment files
 
 ```shell
