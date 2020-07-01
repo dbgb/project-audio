@@ -30,8 +30,6 @@ pipenv install
 pipenv run python manage.py runserver <PORT?>
 ```
 
-Then navigate to `localhost:<PORT>` in your browser.
-
 ## Interacting with the GraphQL API
 
 Navigate to `localhost:<PORT>/graphql` in your browser to explore the API using
@@ -66,5 +64,5 @@ pipenv run python manage.py createsuperuser
 ```
 
 Then navigate to `localhost:<PORT>/admin` and log in with the superuser
-credentials. From here, Django admin provides a complete interface for the
-backend CRUD operations.
+credentials. From here, Django admin provides a complete interface for the API
+CRUD operations.

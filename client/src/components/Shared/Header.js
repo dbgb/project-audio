@@ -41,8 +41,7 @@ export default function Header({ currentUser }) {
         <Link to="/" className={classes.growFirst}>
           <RadioTwoTone className={classes.logo} />
           <Typography variant="h4" noWrap>
-            {/* TODO: Decide on project name! */}
-            {process.env.REACT_APP_NAME || "Project Name"}
+            projectAudio
           </Typography>
         </Link>
         {currentUser && (
