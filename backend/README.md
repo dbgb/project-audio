@@ -68,20 +68,3 @@ pipenv run python manage.py createsuperuser
 Then navigate to `localhost:<PORT>/admin` and log in with the superuser
 credentials. From here, Django admin provides a complete interface for the
 backend CRUD operations.
-
-## Deployment
-
-```shell
-heroku login
-. . .
-```
-
-### Generating production deployment files
-
-```shell
-echo web: gunicorn projectAudio.wsgi > Procfile
-
-pipenv run pip freeze > requirements.txt
-
-pipenv run python manage.py check --deploy
-```
