@@ -5,4 +5,6 @@ class TracksConfig(AppConfig):
     """
     Configuration class for tracks app
     """
-    name = 'tracks'
+
+    name = "tracks"
+

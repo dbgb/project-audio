@@ -8,6 +8,7 @@ class Query(users.schema.Query, tracks.schema.Query, graphene.ObjectType):
     """
     Define base query type for project
     """
+
     pass
 
 
@@ -15,6 +16,7 @@ class Mutation(users.schema.Mutation, tracks.schema.Mutation, graphene.ObjectTyp
     """
     Define base mutation type for project
     """
+
     # Enable JWT fields for all mutations
     token_auth = graphql_jwt.ObtainJSONWebToken.Field()
     verify_token = graphql_jwt.Verify.Field()

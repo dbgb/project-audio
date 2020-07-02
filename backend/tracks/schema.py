@@ -10,6 +10,7 @@ class TrackType(DjangoObjectType):
     """
     Transform django Track model into graphene compatible ObjectType
     """
+
     class Meta:
         model = Track
 
@@ -18,6 +19,7 @@ class LikeType(DjangoObjectType):
     """
     Transform django Like model into graphene compatible ObjectType
     """
+
     class Meta:
         model = Like
 
@@ -27,6 +29,7 @@ class Query(graphene.ObjectType):
     Define base query type for tracks app, to be inherited by base query type
     in project schema file
     """
+
     # Fields
     tracks = graphene.List(TrackType, search=graphene.String())
     likes = graphene.List(LikeType)
@@ -35,10 +38,10 @@ class Query(graphene.ObjectType):
     def resolve_tracks(self, info, search=None):
         if search:
             query = (
-                Q(title__icontains=search) |
-                Q(description__icontains=search) |
-                Q(url__icontains=search) |
-                Q(posted_by__username__icontains=search)
+                Q(title__icontains=search)
+                | Q(description__icontains=search)
+                | Q(url__icontains=search)
+                | Q(posted_by__username__icontains=search)
             )
             return Track.objects.filter(query)
 
@@ -72,8 +75,7 @@ class CreateTrack(graphene.Mutation):
         title = kwargs.get("title")
         description = kwargs.get("description")
         url = kwargs.get("url")
-        track = Track(title=title, description=description,
-                      url=url, posted_by=user)
+        track = Track(title=title, description=description, url=url, posted_by=user)
         track.save()
         return CreateTrack(track=track)
 
@@ -105,8 +107,7 @@ class UpdateTrack(graphene.Mutation):
         if track.posted_by != user:
             # Only allow users to update tracks associated with the currently
             # authenticated account
-            raise GraphQLError(
-                "You do not have permission to update this track.")
+            raise GraphQLError("You do not have permission to update this track.")
 
         track.title = kwargs.get("title")
         track.description = kwargs.get("description")
@@ -142,8 +143,7 @@ class DeleteTrack(graphene.Mutation):
         if track.posted_by != user:
             # Only allow users to delete tracks associated with the currently
             # authenticated account
-            raise GraphQLError(
-                "You do not have permission to delete this track.")
+            raise GraphQLError("You do not have permission to delete this track.")
 
         track.delete()
 
@@ -175,10 +175,7 @@ class LikeTrack(graphene.Mutation):
         if not track:
             raise GraphQLError("Track does not exist.")
 
-        Like.objects.create(
-            user=user,
-            track=track
-        )
+        Like.objects.create(user=user, track=track)
 
         return LikeTrack(user=user, track=track)
 

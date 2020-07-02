@@ -8,6 +8,7 @@ class UserType(DjangoObjectType):
     """
     Transform Django user model into graphene compatible ObjectType
     """
+
     class Meta:
         model = get_user_model()
 
@@ -17,6 +18,7 @@ class Query(graphene.ObjectType):
     Define base query type for users, to be inherited by base query type
     in project schema file
     """
+
     user = graphene.Field(UserType, id=graphene.Int(required=True))
     me = graphene.Field(UserType)
 
@@ -40,6 +42,7 @@ class CreateUser(graphene.Mutation):
     """
     Define mutation fields and resolvers for creating User objects
     """
+
     user = graphene.Field(UserType)
 
     class Arguments:
@@ -60,4 +63,5 @@ class Mutation(graphene.ObjectType):
     Define base mutation type for users, to be inherited by base query
     type in project schema file
     """
+
     create_user = CreateUser.Field()
