@@ -6,87 +6,115 @@ TODO
 
 ## Project deployment: Heroku
 
+re:
+
+```links
+https://12factor.net/
+https://devcenter.heroku.com/articles/sqlite3
+https://devcenter.heroku.com/articles/heroku-postgresql
+https://github.com/joke2k/django-environ
+https://stackoverflow.com/questions/18552846/no-web-processes-running-django-in-heroku
+```
+
+tl;dr:
+
+- Two apps (Option 1):
+  - App 1: Express serving React static build
+  - App 2: Django API
+- Single app (Option 2):
+  - App 1: Django API and serving React static build with middleware
+
+TODO: (START) -- Move this section to general heroku deployment guide, copy
+relevant info here
+
+### Using Heroku with a monorepo
+
 The project is set up as a monorepo ie. we have a single git repository
 containing more than one app (in our case, a React-based client and a
 Django-based GraphQL API). Heroku normally assumes a repo tracks a single app,
-but using a [multi-procfile
-buildpack](https://elements.heroku.com/buildpacks/heroku/heroku-buildpack-multi-procfile)
-allows us to tell Heroku how to handle both our client and the API, at the same
-time.
+but it is possible to set up two, or more, apps at the same time using a
+[multi-procfile
+buildpack](https://elements.heroku.com/buildpacks/heroku/heroku-buildpack-multi-procfile).
 
-### Production choices
+This can be handy if the goal is to run the client and API on separate Heroku
+dynos.
 
-TODO: Move to general deployment guide, keep relevant info here
+### Production options
 
-_Deploying client and API on:_
+N.B. The term _"machine"_ in the following section can be taken to mean either
+physical, or virtual.
 
-1. Same machine, handled by separate servers
-   - eg. _Express.js client server, Gunicorn API server_
-2. Same machine, with API behind a reverse proxy
-   - eg. _NGINX serves client static files and proxies requests to Gunicorn API
-     server_
-3. Same machine and server
-   - eg. _Gunicorn serving API and client build files with WhiteNoise middleware_
-4. Separate machines
-   - eg. _Client static file server on AWS S3, API server on DigitalOcean VPS_
-   - OR _2 Heroku dynos_
+Deploying client and API on:
 
-### Deployment process
+1. _Same machine, handled by separate servers_
+
+   - eg. Express.js client server, Gunicorn API server
+
+2. _Same machine, with API Gateway_
+
+   - eg. Gunicorn API server, NGINX client server and acts as reverse proxy for
+     API server requests
+   - re: <https://www.nginx.com/blog/building-microservices-using-an-api-gateway/>
+
+3. _Same machine and server_
+
+   - eg. Gunicorn serving API and client static build files with Django
+     WhiteNoise middleware
+   - re: <https://librenepal.com/article/django-and-create-react-app-together-on-heroku/>
+
+4. _Separate machines_
+   - eg. Client static file server on AWS S3, API server on DigitalOcean VPS
+   - OR 2 Heroku dynos
+
+### Deployment process (Option 3.)
 
 _From the project root directory:_
 
 ```shell
-# -- Check Django deployment checklist before proceeding
-# Take action at your discretion
+# -- Check Django deployment checklist and act accordingly
 pipenv run python backend/manage.py check --deploy
-
-# -- Create two separate Heroku dynos
-heroku login
-heroku create projectaudio-api --remote heroku-api
-heroku create projectaudio --buildpack mars/create-react-app --remote heroku-client
 
 # -- Configure Heroku deployment dependencies
 # re: https://devcenter.heroku.com/articles/django-app-configuration
-pipenv install gunicorn django-heroku
-pipenv run pip freeze > backend/requirements.txt
+pipenv install gunicorn whitenoise django-heroku
+pipenv run pip freeze > requirements.txt
 
 # -- Create backend procfile
 # On new release perform Django db migration, if necessary
-echo release: python manage.py migrate > backend/Procfile
+echo release: pipenv run python backend/manage.py migrate > Procfile
 # Specify production API server settings
-echo web: gunicorn --chdir backend app.wsgi --log-file - >> backend/Procfile
+echo web: gunicorn --chdir backend app.wsgi --log-file - >> Procfile
 
-# -- Create client procfile
-# ...
-echo web: ... > client/Procfile
+# -- Create Heroku app
+heroku login
+heroku create projectaudio
 
-
-# -- Add multi-procfile buildpack to each app
-heroku buildpacks:add -a projectaudio-api https://github.com/heroku/heroku-buildpack-multi-procfile
-heroku buildpacks:add -a projectaudio https://github.com/heroku/heroku-buildpack-multi-procfile
-
-# -- Set Procfile locations
-heroku config:set -a projectaudio-api PROCFILE=backend/Procfile
-heroku config:set -a projectaudio PROCFILE=client/Procfile
+# -- Assign buildpacks
+# Ensure React build is complete before Python buildpack collects static files
+heroku buildpacks:set -a projectaudio heroku/python
+heroku buildpacks:add -a projectaudio --index 1 heroku/nodejs
 
 # -- Add postgres db to persist backend data
-heroku addons:create -a projectaudio-api heroku-postgresql:hobby-dev
+heroku addons:create -a projectaudio heroku-postgresql:hobby-dev
+
+# -- Set deployment environment variables
+heroku config:set DJANGO_DEBUG=
+heroku config:set DJANGO_SECRET_KEY=<insert_secret_key_here>
+heroku config:set REACT_APP_CLIENT_ENDPOINT=<insert_project_url_here>
+heroku config:set REACT_APP_SERVER_ENDPOINT=<insert_project_url_here>
+heroku config:set REACT_APP_GQL_ENDPOINT=<insert_project_url_here>
+
+# -- Spin up a web dyno to power the project
+heroku ps:scale -a projectaudio web=1
 
 # -- Push project monorepo to Heroku remote
-git push heroku-api master
-git push heroku-client master
-
-# -- Set environment variables for backend
-heroku config:set -a projectaudio-api DJANGO_DEBUG=
-heroku config:set -a projectaudio-api DJANGO_SECRET_KEY=<insert_secret_key_here>
-heroku config:set -a projectaudio-api REACT_APP_ENDPOINT=<insert_location_here>
-
-# -- Set environment variables for client
-heroku config:set -a projectaudio REACT_APP_GQL_ENDPOINT=<insert_location_here>
+git push heroku master
 
 # -- Open live project in browser
 heroku open
 ```
+
+TODO: (END)
 
 ## Further information
 
