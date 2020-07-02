@@ -1,0 +1,14 @@
+{
+  "name": "projectaudio",
+  "author": "dbgb",
+  "version": "0.1.0",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "heroku-prebuild": "cd client && yarn install && yarn build && cd ..",
+    "heroku-postbuild": "npx cowsay 'Woot!'"
+  },
+  "cacheDirectories": [
+    "client/node_modules"
+  ]
+}

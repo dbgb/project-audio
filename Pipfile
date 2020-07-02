@@ -14,10 +14,10 @@ whitenoise = "*"
 
 [dev-packages]
 autopep8 = "*"
+black = "*"
 pylint = "*"
 pylint-django = "*"
 rope = "*"
-black = "*"
 
 [requires]
 python_version = "3.8"

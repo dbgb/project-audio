@@ -1,6 +1,8 @@
 {
-  "name": "client",
+  "name": "projectaudio-client",
+  "author": "dbgb",
   "version": "0.1.0",
+  "main": "index.js",
   "private": true,
   "dependencies": {
     "@apollo/react-components": "^3.1.5",
@@ -45,5 +47,8 @@
     "babel-plugin-import": "^1.13.0",
     "customize-cra": "^1.0.0",
     "react-app-rewired": "^2.1.6"
+  },
+  "engines": {
+    "node": "12.x"
   }
 }
