@@ -37,7 +37,7 @@ SECRET_KEY = env("SECRET_KEY")
 DEBUG = env("DEBUG")
 
 ALLOWED_HOSTS = [
-    env("REACT_APP_ENDPOINT"),
+    env("REACT_APP_CLIENT_ENDPOINT"),
     "localhost",
     "127.0.0.1",
 ]
@@ -87,8 +87,8 @@ MIDDLEWARE = [
 # https://github.com/adamchainz/django-cors-headers#cors_origin_whitelist
 
 CORS_ORIGIN_WHITELIST = [
-    env("REACT_APP_ENDPOINT"),
-    "http://localhost:9876",
+    env("REACT_APP_CLIENT_ENDPOINT"),
+    env("REACT_APP_SERVER_ENDPOINT"),  # Also acts as local prod build server
 ]
 
 AUTHENTICATION_BACKENDS = [
