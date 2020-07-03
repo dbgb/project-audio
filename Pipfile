@@ -17,7 +17,6 @@ autopep8 = "*"
 black = "*"
 pylint = "*"
 pylint-django = "*"
-rope = "*"
 
 [requires]
 python_version = "3.8"
