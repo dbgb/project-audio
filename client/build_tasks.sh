@@ -1,18 +1,27 @@
 #!/bin/bash
 
+indent() {
+  sed -u 's/^/       /'
+}
+
+[[ ! -z "$NODE_ENV" ]] && echo "NODE_ENV: $NODE_ENV" | indent
+
 # 1. Create production build
-yarn install
+# -- Unless calling script via heroku-postbuild,
+# -- handled automatically by Heroku Node.js buildpack
+# yarn install
 yarn build
 
 # 2. Organise files to be collected and served by Django at client root
 mkdir -p build/root
-cd build
+pushd build
 ROOT_FILES="*.ico *.js *.json *.png robots.txt"
-mv -v $ROOT_FILES root/ && echo
-cd ../..
+mv -v $ROOT_FILES root/ && npx cowsay "Files mooo-ved successfully!" | indent && echo
+popd
 
 # 3. Collect static files for backend
-# (Handled automatically by Heroku python buildpack in production)
-# pushd backend
+# -- If Django is detected,
+# -- handled automatically by Heroku Python buildpack
+# pushd ../backend
 # pipenv run python manage.py collectstatic --no-input
 # popd
