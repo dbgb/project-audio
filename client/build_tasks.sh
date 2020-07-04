@@ -1,7 +1,6 @@
 #!/bin/bash
 
 # 1. Create production build
-cd client
 yarn install
 yarn build
 
@@ -9,7 +8,7 @@ yarn build
 mkdir -p build/root
 cd build
 ROOT_FILES="*.ico *.js *.json *.png robots.txt"
-mv -v $ROOT_FILES root/
+mv -v $ROOT_FILES root/ && echo
 cd ../..
 
 # 3. Collect static files for backend

@@ -1,1 +1,0 @@
-web: pipenv run python backend/manage.py runserver 9876

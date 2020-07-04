@@ -9,8 +9,10 @@ graphene-django = "<=2.10.1"
 django-graphql-jwt = "*"
 django-cors-headers = "*"
 django-environ = "*"
+dj-database-url = "*"
 gunicorn = "*"
 whitenoise = "*"
+psycopg2 = "*"
 
 [dev-packages]
 autopep8 = "*"

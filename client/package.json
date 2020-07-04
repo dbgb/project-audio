@@ -25,8 +25,13 @@
     "start": "set PORT=8765 && react-app-rewired start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "heroku-prebuild": "bash build_tasks.sh",
+    "heroku-postbuild": "npx cowsay 'Woot!'"
   },
+  "cacheDirectories": [
+    "client/node_modules"
+  ],
   "eslintConfig": {
     "extends": "react-app"
   },
