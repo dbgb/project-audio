@@ -5,7 +5,7 @@
   "main": "index.js",
   "private": true,
   "scripts": {
-    "heroku-prebuild": "cd client && yarn install && yarn build && cd ..",
+    "heroku-prebuild": "bash build_tasks.sh",
     "heroku-postbuild": "npx cowsay 'Woot!'"
   },
   "cacheDirectories": [
