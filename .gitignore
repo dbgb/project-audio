@@ -124,4 +124,5 @@ dmypy.json
 .pylintrc
 .env
 TODO
+*.todo
 *.sh
