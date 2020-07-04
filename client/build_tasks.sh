@@ -1,10 +1,10 @@
 #!/bin/bash
 
-indent() {
-  sed -u 's/^/       /'
-}
+# indent() {
+#   sed -u 's/^/       /'
+# }
 
-[[ ! -z "$NODE_ENV" ]] && echo "NODE_ENV: $NODE_ENV" | indent
+[[ ! -z "$NODE_ENV" ]] && echo "NODE_ENV: $NODE_ENV"
 
 # 1. Create production build
 # -- Unless calling script via heroku-postbuild,
@@ -16,7 +16,7 @@ yarn build
 mkdir -p build/root
 pushd build
 ROOT_FILES="*.ico *.js *.json *.png robots.txt"
-mv -v $ROOT_FILES root/ && npx cowsay "Files mooo-ved successfully!" | indent && echo
+mv -v $ROOT_FILES root/ && npx cowsay "Files mooo-ved successfully!" && echo
 popd
 
 # 3. Collect static files for backend

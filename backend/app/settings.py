@@ -37,9 +37,10 @@ SECRET_KEY = env("DJANGO_SECRET_KEY")
 DEBUG = env("DEBUG")
 
 ALLOWED_HOSTS = [
-    env("REACT_APP_CLIENT_ENDPOINT"),
-    "localhost",
-    "127.0.0.1",
+    "*" # Testing value only
+    # env("REACT_APP_CLIENT_ENDPOINT"),
+    # "localhost",
+    # "127.0.0.1",
 ]
 
 
