@@ -4,8 +4,11 @@
 
 The backend for the app is implemented using:
 
-- [Django](https://docs.djangoproject.com/en/3.0/intro/overview/) \- For data modelling, querying, auth and administration.
-- [graphene-django](https://docs.graphene-python.org/en/latest/quickstart/) \- To interface with Django models and describe the GraphQL API request and response data in the form of Python schema.
+- [Django](https://docs.djangoproject.com/en/3.0/intro/overview/) \- For data
+  modelling, querying, auth and administration.
+- [graphene-django](https://docs.graphene-python.org/en/latest/quickstart/) \-
+  To interface with Django models and describe the GraphQL API request and
+  response data in the form of Python schema.
 
 ## Setting up the development environment
 
