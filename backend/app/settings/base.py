@@ -18,7 +18,8 @@ import environ
 # Define env defaults
 env = environ.Env(
     # (type, default)
-    DEBUG=(bool, False)
+    DEBUG=(bool, False),
+    USE_CORS_MIDDLEWARE=(bool, False),
 )
 
 # Read in development env file
@@ -80,10 +81,11 @@ MIDDLEWARE = [
 
 # Origins that are authorized to make cross-site HTTP requests
 # https://github.com/adamchainz/django-cors-headers#cors_origin_whitelist
-CORS_ORIGIN_WHITELIST = [
-    env("REACT_APP_CLIENT_ENDPOINT"),
-    env("REACT_APP_SERVER_ENDPOINT"),  # Also acts as local prod build server
-]
+if env("USE_CORS_MIDDLEWARE"):
+    CORS_ORIGIN_WHITELIST = [
+        env("REACT_APP_CLIENT_ENDPOINT"),
+        env("REACT_APP_SERVER_ENDPOINT"),  # Also acts as local prod build server
+    ]
 
 AUTHENTICATION_BACKENDS = [
     "graphql_jwt.backends.JSONWebTokenBackend",
