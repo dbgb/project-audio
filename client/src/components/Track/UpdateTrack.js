@@ -89,7 +89,7 @@ export default function UpdateTrack({ track }) {
         "https://api.cloudinary.com/v1_1/dbgb/raw/upload",
         formData
       );
-      return { status: "uploaded", response: res.data.url };
+      return { status: "uploaded", response: res.data.secure_url };
     } catch (error) {
       // Cancel loading spinner and return error message for handling
       setUploading(false);
