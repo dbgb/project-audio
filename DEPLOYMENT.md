@@ -81,7 +81,7 @@ popd
 
 # -- Configure Heroku deployment dependencies
 # re: https://devcenter.heroku.com/articles/django-app-configuration
-pipenv install gunicorn dj-database-url psycopg2
+pipenv install gunicorn psycopg2
 # Freeze dependencies for production stability
 pipenv run pip freeze > requirements.txt
 
@@ -103,20 +103,24 @@ backend=https://github.com/heroku/heroku-buildpack-python.git >> .buildpacks
 
 # -- Provision postgres production db to persist backend data
 # https://devcenter.heroku.com/articles/heroku-postgresql
+# Automatically creates DATABASE_URL Heroku env variable
 heroku addons:create -a projectaudio heroku-postgresql:hobby-dev
 
 # -- Set deployment environment variables
+heroku config:set ALLOWED_HOSTS="<PROJECT_NAME>.herokuapp.com"
 heroku config:set DJANGO_DEBUG=
 heroku config:set DJANGO_SECRET_KEY=<SECRET_KEY>
-heroku config:set REACT_APP_CLIENT_ENDPOINT=<LIVE_PROJECT_URL>
-heroku config:set REACT_APP_SERVER_ENDPOINT=<LIVE_PROJECT_URL>
-heroku config:set REACT_APP_GQL_ENDPOINT=<LIVE_PROJECT_URL>
+heroku config:set DJANGO_SETTINGS_MODULE="app.settings.heroku"
+
+# -- Check deployment environment variables
+heroku config
 
 # -- Push project monorepo to Heroku remote
 git push heroku master
 
 # -- After successful deploy, open live project in browser
 heroku open
+
 ```
 
 ### Troubleshooting
