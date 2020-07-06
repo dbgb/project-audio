@@ -1,2 +1,2 @@
 release: python backend/manage.py migrate
-web: gunicorn --pythonpath backend app.wsgi --log-file -
+web: gunicorn --pythonpath backend app.wsgi --preload --log-file -
