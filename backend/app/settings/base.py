@@ -18,13 +18,9 @@ import environ
 # Define env defaults
 env = environ.Env(
     # (type, default)
-    DEBUG=(bool, False),
+    DJANGO_DEBUG=(bool, False),
     USE_CORS_MIDDLEWARE=(bool, False),
 )
-
-# Read in development env file
-# N.B. https://github.com/joke2k/django-environ#multiple-env-files
-environ.Env.read_env()
 
 # Build paths inside the project like this: os.path.join(BACKEND_DIR, ...)
 SETTINGS_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -112,7 +108,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "app.wsgi.application"
 
-
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
@@ -123,7 +118,6 @@ DATABASES = {
     }
 }
 
-
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
@@ -133,7 +127,6 @@ AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",},
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",},
 ]
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
@@ -147,7 +140,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
