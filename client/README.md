@@ -1,13 +1,25 @@
 # README: Client
 
-## Overview
+## Contents
+
+- [README: Client](#readme-client)
+  - [Contents](#contents)
+  - [🔎 Overview](#-overview)
+  - [🔧 Setting up the development environment](#-setting-up-the-development-environment)
+    - [`yarn start`](#yarn-start)
+    - [`yarn test`](#yarn-test)
+    - [`yarn build`](#yarn-build)
+    - [`yarn eject`](#yarn-eject)
+  - [🚀 Further information](#-further-information)
+
+## 🔎 Overview
 
 The client for the app is implemented using:
 
 - [React](https://reactjs.org/) \- To create and wire together the user
   interface components.
 - [Apollo Client](https://www.apollographql.com/docs/react/) \- For component
-  state management; GraphQL queries, mutations and caching - and keeping the UI
+  state management; GraphQL queries, mutations and caching\-and keeping the UI
   up to date.
 - [Material UI](https://material-ui.com/) \- To provide reliable,
   high-performance UI components, with consistent styling and user experience
@@ -18,7 +30,7 @@ The client was bootstrapped with
 [react-app-rewired](https://github.com/timarney/react-app-rewired) to override
 create-react-app webpack configs without ejecting.
 
-## Setting up the development environment
+## 🔧 Setting up the development environment
 
 In the `client` directory, you can run:
 
@@ -74,9 +86,7 @@ small and middle deployments, and you shouldn’t feel obligated to use this
 feature. However we understand that this tool wouldn’t be useful if you couldn’t
 customize it when you are ready for it.
 
----
-
-### Learn More
+## 🚀 Further information
 
 You can learn more in the [Create React App
 documentation](https://facebook.github.io/create-react-app/docs/getting-started).
