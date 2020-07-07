@@ -38,7 +38,11 @@ export default function Header({ currentUser }) {
   return (
     <AppBar position="static">
       <Toolbar>
-        <Link to="/" className={classes.growFirst}>
+        <Link
+          to="/"
+          onDragStart={(e) => e.preventDefault()}
+          className={classes.growFirst}
+        >
           <RadioTwoTone className={classes.logo} />
           <Typography variant="h4" noWrap>
             projectAudio
@@ -49,12 +53,14 @@ export default function Header({ currentUser }) {
             {/* Navbar start */}
             <Link
               to={`/profile/${currentUser.id}`}
+              onDragStart={(e) => e.preventDefault()}
               className={classes.growAfter}
             >
               <MusicNote className={classes.navIcon} />
             </Link>
             <Link
               to={`/profile/${currentUser.id}`}
+              onDragStart={(e) => e.preventDefault()}
               className={classes.growAfter}
             >
               <Person className={classes.navIcon} />
@@ -96,6 +102,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     alignItems: "center",
     textDecoration: "none",
+    outline: "none",
     color: "#eee",
   },
   growAfter: {
@@ -103,6 +110,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     justifyContent: "center",
     textDecoration: "none",
+    outline: "none",
     color: "#eee",
     margin: theme.spacing(0.5),
   },
