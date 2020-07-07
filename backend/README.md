@@ -1,6 +1,15 @@
 # README: Backend
 
-## Overview
+## Contents
+
+- [README: Backend](#readme-backend)
+  - [Contents](#contents)
+  - [🔎 Overview](#-overview)
+  - [🔧 Setting up the development environment](#-setting-up-the-development-environment)
+  - [💻 Interacting with the GraphQL API](#-interacting-with-the-graphql-api)
+  - [💼 Managing project model data](#-managing-project-model-data)
+
+## 🔎 Overview
 
 The backend for the app is implemented using:
 
@@ -10,7 +19,7 @@ The backend for the app is implemented using:
   To interface with Django models and describe the GraphQL API request and
   response data in the form of Python schema.
 
-## Setting up the development environment
+## 🔧 Setting up the development environment
 
 The following instructions presume the user has a basic familiarity with the
 command line, and both Python 3 and Pip installed. If you need help with the
@@ -33,7 +42,7 @@ pipenv install
 pipenv run python manage.py runserver <PORT?>
 ```
 
-## Interacting with the GraphQL API
+## 💻 Interacting with the GraphQL API
 
 Navigate to `localhost:<PORT>/graphql` in your browser to explore the API using
 GraphiQL. The [Apollo Client
@@ -59,7 +68,7 @@ The token returned as part of the mutation response can then be used as a JWT
 authentication header to allow the user to perform any privileged operations
 their account has been granted access to.
 
-## Managing project model data
+## 💼 Managing project model data
 
 ```shell
 # Create a project superuser account
