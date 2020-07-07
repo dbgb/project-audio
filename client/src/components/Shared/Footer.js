@@ -8,7 +8,7 @@ export default function Footer() {
   // Render footer
   return (
     <footer className={classes.root}>
-      Made by
+      &copy;
       <a
         className={classes.footerLink}
         target="_blank"
