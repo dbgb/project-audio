@@ -7,6 +7,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import App from "./pages/App";
 import Auth from "./components/Auth";
 import Profile from "./pages/Profile";
+import Uploads from "./pages/Uploads";
 import Header from "./components/Shared/Header";
 import Footer from "./components/Shared/Footer";
 import Error from "./components/Shared/Error";
@@ -46,6 +47,7 @@ export default function Root() {
           <Switch>
             <Route exact path="/" component={App} />
             <Route path="/profile/:id" component={Profile} />
+            <Route path="/uploads/:id" component={Uploads} />
           </Switch>
         </Container>
         <Footer />

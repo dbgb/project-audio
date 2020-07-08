@@ -52,7 +52,7 @@ export default function Header({ currentUser }) {
           <Fragment>
             {/* Navbar start */}
             <Link
-              to={`/profile/${currentUser.id}`}
+              to={`/uploads/${currentUser.id}`}
               onDragStart={(e) => e.preventDefault()}
               className={classes.growAfter}
             >
