@@ -59,6 +59,7 @@ export const CURRENT_USER = gql`
     me {
       id
       username
+      email
       likeSet {
         track {
           id
