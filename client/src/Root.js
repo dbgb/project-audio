@@ -2,6 +2,7 @@ import React from "react";
 import { gql } from "apollo-boost";
 import { useQuery, useApolloClient } from "@apollo/react-hooks";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { Container } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import App from "./pages/App";
 import Auth from "./components/Auth";
@@ -40,13 +41,13 @@ export default function Root() {
     // Client routing logic
     <Router>
       <UserContext.Provider value={currentUser}>
-        <main className={classes.main}>
+        <Container maxWidth="xl" className={classes.container} disableGutters>
           <Header currentUser={currentUser} />
           <Switch>
             <Route exact path="/" component={App} />
             <Route path="/profile/:id" component={Profile} />
           </Switch>
-        </main>
+        </Container>
         <Footer />
       </UserContext.Provider>
     </Router>
@@ -71,8 +72,9 @@ export const CURRENT_USER = gql`
 
 // MUI component styling
 const useStyles = makeStyles((theme) => ({
-  main: {
+  container: {
     // Implements flexbox sticky footer when combined with #root element styling
     flex: "1 0 auto",
+    background: `linear-gradient(${theme.palette.primary.light}, #eee 50%)`,
   },
 }));

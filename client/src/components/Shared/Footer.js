@@ -34,7 +34,8 @@ export default function Footer() {
 // MUI component styling
 const useStyles = makeStyles((theme) => ({
   root: {
-    margin: theme.spacing(2),
+    padding: theme.spacing(2),
+    backgroundColor: "#eee",
     color: theme.palette.secondary.main,
     fontSize: ".8em",
   },
