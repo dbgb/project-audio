@@ -44,7 +44,7 @@ export default function Header({ currentUser }) {
           className={classes.growFirst}
         >
           <RadioTwoTone className={classes.logo} />
-          <Typography variant="h4" noWrap>
+          <Typography className={classes.title} variant="h4" noWrap>
             projectAudio
           </Typography>
         </Link>
@@ -117,6 +117,12 @@ const useStyles = makeStyles((theme) => ({
   logo: {
     marginRight: theme.spacing(2),
     fontSize: "3em",
+  },
+  title: {
+    fontFamily: "'Major Mono Display', monospace, sans-serif",
+    // fontFamily: "'La Belle Aurore', Roboto, sans-serif",
+    // fontFamily: "'Delius Swash Caps', Roboto, sans-serif",
+    overflow: "visible",
   },
   navIcon: {
     marginRight: theme.spacing(1),
