@@ -11,7 +11,7 @@ import {
   ListItemText,
   Typography,
 } from "@material-ui/core";
-import { ExpandMore } from "@material-ui/icons/";
+import { ExpandMore, QueueMusicTwoTone } from "@material-ui/icons/";
 import LikeTrack from "../Track/LikeTrack";
 import DeleteTrack from "../Track/DeleteTrack";
 import UpdateTrack from "../Track/UpdateTrack";
@@ -24,37 +24,45 @@ export default function TrackList({ tracks }) {
   return (
     <div className={classes.root}>
       <List className={classes.list}>
-        {tracks.map((track) => (
-          <ExpansionPanel key={track.id}>
-            <ExpansionPanelSummary
-              classes={{ content: classes.summary }}
-              expandIcon={<ExpandMore />}
-            >
-              <ListItem disableGutters dense>
-                <LikeTrack trackId={track.id} likeCount={track.likes.length} />
-                <ListItemText
-                  primary={track.title}
-                  secondary={
-                    <Link
-                      to={`/profile/${track.postedBy.id}`}
-                      className={classes.link}
-                    >
-                      {track.postedBy.username}
-                    </Link>
-                  }
-                />
-                <AudioPlayer url={track.url} />
-              </ListItem>
-            </ExpansionPanelSummary>
-            <ExpansionPanelDetails className={classes.details}>
-              <Typography>{track.description}</Typography>
-            </ExpansionPanelDetails>
-            <ExpansionPanelActions>
-              <UpdateTrack track={track} />
-              <DeleteTrack track={track} />
-            </ExpansionPanelActions>
-          </ExpansionPanel>
-        ))}
+        {tracks.length < 1 ? (
+          <QueueMusicTwoTone className={classes.icon} />
+        ) : (
+          tracks.map((track) => (
+            <ExpansionPanel key={track.id}>
+              <ExpansionPanelSummary
+                classes={{ content: classes.summary }}
+                expandIcon={<ExpandMore />}
+              >
+                <ListItem disableGutters dense>
+                  <LikeTrack
+                    trackId={track.id}
+                    likeCount={track.likes.length}
+                  />
+                  <ListItemText
+                    primary={track.title}
+                    secondary={
+                      <Link
+                        to={`/profile/${track.postedBy.id}`}
+                        className={classes.link}
+                      >
+                        {track.postedBy.username}
+                      </Link>
+                    }
+                    className={classes.listItemText}
+                  />
+                  <AudioPlayer url={track.url} />
+                </ListItem>
+              </ExpansionPanelSummary>
+              <ExpansionPanelDetails className={classes.details}>
+                <Typography>{track.description}</Typography>
+              </ExpansionPanelDetails>
+              <ExpansionPanelActions>
+                <UpdateTrack track={track} />
+                <DeleteTrack track={track} />
+              </ExpansionPanelActions>
+            </ExpansionPanel>
+          ))
+        )}
       </List>
     </div>
   );
@@ -67,13 +75,22 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "space-evenly",
   },
   list: {
-    flexBasis: "700px",
+    flexBasis: "768px",
+    textAlign: "center",
+  },
+  icon: {
+    color: theme.palette.primary.light,
+    fontSize: "32rem",
+    opacity: "30%",
   },
   summary: {
     margin: 0,
   },
   details: {
     justifyContent: "center",
+  },
+  listItemText: {
+    paddingLeft: theme.spacing(1),
   },
   link: {
     color: theme.palette.secondary.main,
