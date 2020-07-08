@@ -37,12 +37,6 @@ theme = responsiveFontSizes(theme);
 const client = new ApolloClient({
   // Register GraphQL endpoint
   uri: process.env.REACT_APP_GQL_ENDPOINT,
-  clientState: {
-    defaults: {
-      // Truth test for presence of authentication token
-      isLoggedIn: !!localStorage.getItem("authToken"),
-    },
-  },
   request: (operation) => {
     // Get JWT from local storage, if it exists
     const authToken = localStorage.getItem("authToken");
@@ -52,6 +46,15 @@ const client = new ApolloClient({
         Authorization: authToken ? `JWT ${authToken}` : "",
       },
     });
+  },
+  resolvers: {},
+});
+
+// Prime Apollo cache with default values
+client.writeData({
+  data: {
+    // Truth test for presence of authentication token
+    isLoggedIn: !!localStorage.getItem("authToken"),
   },
 });
 
