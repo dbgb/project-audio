@@ -17,11 +17,12 @@ export default function AudioPlayer({ url }) {
 const useStyles = makeStyles((theme) => ({
   root: {
     marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(0.5),
   },
   player: {
     borderRadius: "20px",
     filter: "invert(100%) grayscale(100%)",
-    width: "400px",
+    width: "460px",
     height: "30px",
   },
 }));

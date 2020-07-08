@@ -95,7 +95,7 @@ const useStyles = makeStyles((theme) => ({
   },
   paper: {
     display: "flex",
-    flexBasis: "700px",
+    flexBasis: "768px",
     alignItems: "center",
     margin: theme.spacing(1),
   },
