@@ -77,6 +77,6 @@ const useStyles = makeStyles((theme) => ({
   container: {
     // Implements flexbox sticky footer when combined with #root element styling
     flex: "1 0 auto",
-    background: `linear-gradient(${theme.palette.primary.light}, #eee 50%)`,
+    background: `linear-gradient(150deg, ${theme.palette.primary.light}, #eee 40%)`,
   },
 }));
