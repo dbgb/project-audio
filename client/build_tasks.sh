@@ -4,12 +4,14 @@
 #   sed -u 's/^/       /'
 # }
 
+[[ $1 == "--dev" ]] && DEV_MODE=true
+
 [[ ! -z "$NODE_ENV" ]] && echo "NODE_ENV: $NODE_ENV"
 
 # 1. Create production build
 # -- Unless calling script via heroku-postbuild,
-# -- handled automatically by Heroku Node.js buildpack
-# yarn install
+# -- handled automatically by Heroku Node.js buildpack in production
+[[ $DEV_MODE == true ]] && yarn install
 yarn build
 
 # 2. Organise files to be collected and served by Django at client root
@@ -21,7 +23,9 @@ popd
 
 # 3. Collect static files for backend
 # -- If Django is detected,
-# -- handled automatically by Heroku Python buildpack
-# pushd ../backend
-# pipenv run python manage.py collectstatic --no-input
-# popd
+# -- handled automatically by Heroku Python buildpack in production
+if [[ $DEV_MODE == true  ]]; then
+  pushd ../backend
+  pipenv run python manage.py collectstatic --no-input
+  popd
+fi
