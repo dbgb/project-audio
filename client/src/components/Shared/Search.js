@@ -12,11 +12,15 @@ export default function Search({ setSearchResults }) {
   const classes = useStyles();
   // Store current search return value
   const [searchField, setSearchField] = useState("");
+
   // useLazyQuery returns a function in its result tuple that can be called when
   // ready to execute the query.
   const [getSearch, { loading, error, data }] = useLazyQuery(
     GET_SEARCH_RESULTS,
-    { onCompleted: () => setSearchResults(data.tracks) }
+    {
+      onCompleted: () => setSearchResults(data.tracks),
+      fetchPolicy: "cache-and-network",
+    }
   );
 
   // Handlers
@@ -30,7 +34,7 @@ export default function Search({ setSearchResults }) {
     e.preventDefault();
     // Reset search field and results state
     setSearchField("");
-    setSearchResults([]);
+    setSearchResults(null);
   };
 
   // Render component

@@ -10,7 +10,7 @@ import CreateTrack from "../components/Track/CreateTrack";
 export default function App() {
   // Component state
   const { loading, error, data } = useQuery(GET_TRACKS);
-  const [searchResults, setSearchResults] = useState([]);
+  const [searchResults, setSearchResults] = useState(null);
 
   if (loading) return <Loading />;
   if (error) return <Error error={error} />;
@@ -21,9 +21,7 @@ export default function App() {
   return (
     <Fragment>
       <Search setSearchResults={setSearchResults} />
-      <TrackList
-        tracks={searchResults.length > 0 ? searchResults : allTracks}
-      />
+      <TrackList tracks={searchResults === null ? allTracks : searchResults} />
       <CreateTrack />
     </Fragment>
   );
