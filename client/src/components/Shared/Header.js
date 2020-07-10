@@ -9,6 +9,7 @@ import {
   IconButton,
 } from "@material-ui/core";
 import {
+  Home,
   Menu as Hamburger,
   RadioTwoTone,
   Person,
@@ -52,6 +53,13 @@ export default function Header({ currentUser }) {
           <Fragment>
             {/* Navbar start */}
             <Link
+              to={`/`}
+              onDragStart={(e) => e.preventDefault()}
+              className={classes.growAfter}
+            >
+              <Home className={classes.navIcon} />
+            </Link>
+            <Link
               to={`/uploads/${currentUser.id}`}
               onDragStart={(e) => e.preventDefault()}
               className={classes.growAfter}
@@ -73,7 +81,7 @@ export default function Header({ currentUser }) {
               size="small"
               onClick={handleClick}
             >
-              <Hamburger />
+              <Hamburger className={classes.menuButtonIcon} />
             </IconButton>
             <Menu
               id="navMenu"
@@ -126,9 +134,12 @@ const useStyles = makeStyles((theme) => ({
   },
   navIcon: {
     marginRight: theme.spacing(1),
-    fontSize: "1.5em",
+    fontSize: "2em",
   },
   menuButton: {
     color: "#eee",
+  },
+  menuButtonIcon: {
+    fontSize: "1.5em",
   },
 }));
