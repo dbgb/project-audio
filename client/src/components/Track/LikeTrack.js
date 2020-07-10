@@ -19,8 +19,12 @@ export default function LikeTrack({ trackId, likeCount }) {
       // Return boolean instead of cryptic '-1' for improved code readability
       return track.id === trackId;
     }) > -1;
+
   // Component state
-  const [likeTrack, { error }] = useMutation(LIKE_TRACK, {
+  const [likeTrack, { error: likeError }] = useMutation(LIKE_TRACK, {
+    refetchQueries: [{ query: CURRENT_USER }],
+  });
+  const [unlikeTrack, { error: unlikeError }] = useMutation(UNLIKE_TRACK, {
     refetchQueries: [{ query: CURRENT_USER }],
   });
 
@@ -29,9 +33,15 @@ export default function LikeTrack({ trackId, likeCount }) {
     e.preventDefault();
     e.stopPropagation();
 
+    // Toggle like
     if (!isLiked) {
-      // Only allow like if user hasn't already liked track
       await likeTrack({
+        variables: {
+          trackId: trackId,
+        },
+      });
+    } else {
+      await unlikeTrack({
         variables: {
           trackId: trackId,
         },
@@ -57,7 +67,8 @@ export default function LikeTrack({ trackId, likeCount }) {
           <FavoriteBorder className={classes.likeIcon} />
         )}
       </IconButton>
-      {error && <Error error={error} />}
+      {(likeError) && <Error error={likeError} />}
+      {(unlikeError) && <Error error={unlikeError} />}
     </Fragment>
   );
 }
@@ -66,6 +77,19 @@ export default function LikeTrack({ trackId, likeCount }) {
 const LIKE_TRACK = gql`
   mutation($trackId: Int!) {
     likeTrack(trackId: $trackId) {
+      track {
+        id
+        likes {
+          id
+        }
+      }
+    }
+  }
+`;
+
+const UNLIKE_TRACK = gql`
+  mutation($trackId: Int!) {
+    unlikeTrack(trackId: $trackId) {
       track {
         id
         likes {
