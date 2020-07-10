@@ -1,28 +1,33 @@
-# projectAudio
+# ![projectAudio](other/project-header.jpg) <!-- omit in toc -->
 
-## Contents
+## _Full-stack, audio streaming app_ <!-- omit in toc -->
 
-- [projectAudio](#projectaudio)
-  - [Contents](#contents)
-  - [🔎 Overview](#-overview)
-  - [🐵 Demo](#-demo)
-  - [🚀 Further information](#-further-information)
+### Contents <!-- omit in toc -->
+
+- [🔎 Overview](#-overview)
+- [🎵 Demo](#-demo)
+- [🚀 Further information](#-further-information)
 
 ## 🔎 Overview
 
-TODO: Overview
+> "at a glance information only"
 
-- "at a glance"
-- project purpose
-- feature bulletpoints
+- TODO: project purpose
+- TODO: feature bulletpoints
 
-## 🐵 Demo
+- Tech Stack:
+  - _Javascript up front, Python in the back_
+  - Frontend client:
+    - React + Apollo
+  - Backend API:
+    - Django, Graphene, GraphQL
+  - Static server:
+    - Django + WhiteNoise
 
-TODO: Demo
+## 🎵 Demo
 
-- logo/branding?
-- link to live demo
-- video/images/animations
+- A live, demo version of the app is hosted [here](https://projectaudio.herokuapp.com).
+- TODO: video/images/animations
 
 ## 🚀 Further information
 
