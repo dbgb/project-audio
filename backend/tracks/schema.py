@@ -153,6 +153,8 @@ class DeleteTrack(graphene.Mutation):
 class LikeTrack(graphene.Mutation):
     """
     Define mutation fields and resolvers for liking Track objects
+
+    (Idempotent)
     """
 
     user = graphene.Field(UserType)
@@ -175,9 +177,54 @@ class LikeTrack(graphene.Mutation):
         if not track:
             raise GraphQLError("Track does not exist.")
 
-        Like.objects.create(user=user, track=track)
+        try:
+            like = Like.objects.get(user=user, track=track)
+            if like:
+                # Idempotent - multiple likes for same user and track not permitted
+                return
+        except Like.DoesNotExist:
+            # Track is not currently liked, safe to create new like
+            Like.objects.create(user=user, track=track)
 
         return LikeTrack(user=user, track=track)
+
+
+class UnlikeTrack(graphene.Mutation):
+    """
+    Define mutation fields and resolvers for unliking Track objects
+    
+    (Idempotent)
+    """
+
+    user = graphene.Field(UserType)
+    track = graphene.Field(TrackType)
+
+    class Arguments:
+        track_id = graphene.Int(required=True)
+
+    def mutate(self, info, track_id):
+        """
+        Allow an authenticated user to unlike an existing track
+        """
+
+        user = info.context.user
+        if user.is_anonymous:
+            # Verify user is authenticated before proceeding
+            raise GraphQLError("Please log in to unlike tracks.")
+
+        track = Track.objects.get(id=track_id)
+        if not track:
+            raise GraphQLError("Track does not exist.")
+
+        try:
+            # If like exists, delete it
+            like = Like.objects.get(user=user, track=track)
+            like.delete()
+        except Like.DoesNotExist:
+            # Idempotent - unliking has no effect on not liked track
+            return
+
+        return UnlikeTrack(user=user, track=track)
 
 
 class Mutation(graphene.ObjectType):
@@ -190,3 +237,4 @@ class Mutation(graphene.ObjectType):
     update_track = UpdateTrack.Field()
     delete_track = DeleteTrack.Field()
     like_track = LikeTrack.Field()
+    unlike_track = UnlikeTrack.Field()
