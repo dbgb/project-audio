@@ -7,6 +7,8 @@ import {
   Menu,
   MenuItem,
   IconButton,
+  ListItemIcon,
+  ListItemText,
 } from "@material-ui/core";
 import {
   Home,
@@ -89,7 +91,67 @@ export default function Header({ currentUser }) {
               keepMounted
               open={!!anchorEl}
               onClose={handleClose}
+              className={classes.menu}
             >
+              {/* Mobile only start */}
+              <MenuItem className={classes.mobileOnly}>
+                <Link
+                  to={`/`}
+                  onDragStart={(e) => e.preventDefault()}
+                  className={classes.mobileOnlyLink}
+                >
+                  <ListItemText
+                    className={classes.mobileOnlyLabel}
+                    variant="button"
+                  >
+                    Home
+                  </ListItemText>
+                  <ListItemIcon>
+                    <Home fontSize="small" className={classes.mobileOnlyIcon} />
+                  </ListItemIcon>
+                </Link>
+              </MenuItem>
+              <MenuItem className={classes.mobileOnly}>
+                <Link
+                  to={`/uploads/${currentUser.id}`}
+                  onDragStart={(e) => e.preventDefault()}
+                  className={classes.mobileOnlyLink}
+                >
+                  <ListItemText
+                    className={classes.mobileOnlyLabel}
+                    variant="button"
+                  >
+                    Uploads
+                  </ListItemText>
+                  <ListItemIcon>
+                    <MusicNote
+                      fontSize="small"
+                      className={classes.mobileOnlyIcon}
+                    />
+                  </ListItemIcon>
+                </Link>
+              </MenuItem>
+              <MenuItem className={classes.mobileOnly}>
+                <Link
+                  to={`/profile/${currentUser.id}`}
+                  onDragStart={(e) => e.preventDefault()}
+                  className={classes.mobileOnlyLink}
+                >
+                  <ListItemText
+                    className={classes.mobileOnlyLabel}
+                    variant="button"
+                  >
+                    Profile
+                  </ListItemText>
+                  <ListItemIcon>
+                    <Person
+                      fontSize="small"
+                      className={classes.mobileOnlyIcon}
+                    />
+                  </ListItemIcon>
+                </Link>
+              </MenuItem>
+              {/* Mobile only end */}
               <MenuItem>
                 <Logout />
               </MenuItem>
@@ -121,10 +183,16 @@ const useStyles = makeStyles((theme) => ({
     outline: "none",
     color: "#eee",
     margin: theme.spacing(0.5),
+    [theme.breakpoints.down("xs")]: {
+      display: "none",
+    },
   },
   logo: {
     marginRight: theme.spacing(2),
     fontSize: "3em",
+    [theme.breakpoints.down("sm")]: {
+      display: "none",
+    },
   },
   title: {
     fontFamily: "'Major Mono Display', monospace, sans-serif",
@@ -136,10 +204,21 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(1),
     fontSize: "2em",
   },
+  menu: {},
   menuButton: {
     color: "#eee",
   },
   menuButtonIcon: {
     fontSize: "1.5em",
   },
+  mobileOnly: {
+    [theme.breakpoints.up("sm")]: {
+      display: "none",
+    },
+  },
+  mobileOnlyLink: {
+    textDecoration: "none",
+  },
+  mobileOnlyIcon: {},
+  mobileOnlyLabel: {},
 }));
