@@ -12,7 +12,7 @@ export default function App() {
   const { loading, error, data } = useQuery(GET_TRACKS);
   const [searchResults, setSearchResults] = useState(null);
 
-  if (loading) return <Loading />;
+  if (loading) return <Loading linear />;
   if (error) return <Error error={error} />;
 
   const allTracks = data.tracks;

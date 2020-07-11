@@ -1,22 +1,31 @@
 import React from "react";
-import { CircularProgress } from "@material-ui/core";
+import { CircularProgress, LinearProgress } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 
-export default function Loading({ size = 50 }) {
+export default function Loading({ size = 50, linear = false }) {
   const classes = useStyles();
 
-  return (
-    <div className={classes.root}>
-      <CircularProgress size={size} />
-    </div>
-  );
+  if (!linear) {
+    return (
+      <div className={classes.circularRoot}>
+        <CircularProgress size={size} />
+      </div>
+    );
+  } else {
+    return (
+      <div className={classes.linearRoot}>
+        <LinearProgress />
+      </div>
+    );
+  }
 }
 
 const useStyles = makeStyles((theme) => ({
-  root: {
+  circularRoot: {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+    margin: `${theme.spacing(2)}px 0`,
   },
   linearRoot: {
     width: "100vw",

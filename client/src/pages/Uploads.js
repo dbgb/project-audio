@@ -21,7 +21,7 @@ export default function Uploads() {
     fetchPolicy: "cache-and-network",
   });
 
-  if (loading) return <Loading />;
+  if (loading) return <Loading linear />;
   else if (error) {
     return <Error error={error} />;
   }
@@ -82,6 +82,7 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
   },
   title: {
+    textAlign: "center",
     padding: theme.spacing(0.5),
   },
   emptyMessage: {

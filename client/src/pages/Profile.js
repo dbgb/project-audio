@@ -14,7 +14,7 @@ export default function Profile() {
   // Component state
   const { loading, error, data } = useQuery(CURRENT_USER);
 
-  if (loading) return <Loading />;
+  if (loading) return <Loading linear />;
   else if (error) return <Error error={error} />;
 
   // Display date in human readable format, localized to user computer timezone
