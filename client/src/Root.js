@@ -28,7 +28,7 @@ export default function Root() {
   // Hook into Apollo client state to allow direct write
   const client = useApolloClient();
 
-  if (loading) return <Loading />;
+  if (loading) return <Loading className={classes.progressIcon} />;
   else if (error && error.message === "GraphQL error: Signature has expired") {
     // Reauthenticate on auth token expiry
     // TODO: Configure refresh token strategy
@@ -78,5 +78,9 @@ const useStyles = makeStyles((theme) => ({
     // Implements flexbox sticky footer when combined with #root element styling
     flex: "1 0 auto",
     background: `linear-gradient(150deg, ${theme.palette.primary.light}, #eee 40%)`,
+    overflowX: "hidden",
+  },
+  progressIcon: {
+    margin: `${theme.spacing(2)}px 0`,
   },
 }));
