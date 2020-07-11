@@ -94,13 +94,13 @@ const GET_SEARCH_RESULTS = gql`
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
-    justifyContent: "space-evenly",
+    justifyContent: "center",
     marginTop: theme.spacing(1),
   },
   paper: {
     display: "flex",
-    flexBasis: "768px",
     alignItems: "center",
-    margin: theme.spacing(1),
+    flexBasis: "768px",
+    margin: `${theme.spacing(1)}px 0px`,
   },
 }));

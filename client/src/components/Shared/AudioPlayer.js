@@ -16,13 +16,16 @@ export default function AudioPlayer({ url }) {
 // MUI Component Styling
 const useStyles = makeStyles((theme) => ({
   root: {
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(0.5),
+    display: "flex",
+    flex: "0 1 70%",
+    [theme.breakpoints.down("xs")]: {
+      flex: "0 1 100%",
+    },
   },
   player: {
+    width: "100%",
     borderRadius: "20px",
     filter: "invert(100%) grayscale(100%)",
-    width: "460px",
-    height: "30px",
+    height: "40px",
   },
 }));

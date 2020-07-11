@@ -21,7 +21,10 @@ export default function App() {
   return (
     <Fragment>
       <Search setSearchResults={setSearchResults} />
-      <TrackList tracks={searchResults === null ? allTracks : searchResults} />
+      <TrackList
+        editable
+        tracks={searchResults === null ? allTracks : searchResults}
+      />
       <CreateTrack />
     </Fragment>
   );

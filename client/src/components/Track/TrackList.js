@@ -1,6 +1,6 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import {
   ExpansionPanel,
   ExpansionPanelSummary,
@@ -10,6 +10,7 @@ import {
   ListItem,
   ListItemText,
   Typography,
+  useMediaQuery,
 } from "@material-ui/core";
 import { ExpandMore, QueueMusicTwoTone } from "@material-ui/icons/";
 import LikeTrack from "../Track/LikeTrack";
@@ -17,9 +18,12 @@ import DeleteTrack from "../Track/DeleteTrack";
 import UpdateTrack from "../Track/UpdateTrack";
 import AudioPlayer from "../Shared/AudioPlayer";
 
-export default function TrackList({ tracks }) {
+export default function TrackList({ tracks, editable = false }) {
   // Hook into MUI stylesheet
   const classes = useStyles();
+  const theme = useTheme();
+  const notMobile = useMediaQuery(theme.breakpoints.up("sm"));
+  const mobile = useMediaQuery(theme.breakpoints.down("xs"));
 
   return (
     <div className={classes.root}>
@@ -29,37 +33,62 @@ export default function TrackList({ tracks }) {
         ) : (
           tracks.map((track) => (
             <ExpansionPanel key={track.id}>
+              {/* Summary Start */}
               <ExpansionPanelSummary
                 classes={{ content: classes.summary }}
                 expandIcon={<ExpandMore />}
               >
                 <ListItem disableGutters dense>
+                  {notMobile && (
+                    <Fragment>
+                      <LikeTrack
+                        trackId={track.id}
+                        likeCount={track.likes.length}
+                      />
+                      <ListItemText
+                        primary={track.title}
+                        secondary={
+                          <Link
+                            to={`/profile/${track.postedBy.id}`}
+                            className={classes.link}
+                          >
+                            {track.postedBy.username}
+                          </Link>
+                        }
+                        className={classes.listItemText}
+                      />
+                    </Fragment>
+                  )}
+                  {mobile && (
+                    <Typography
+                      variant="caption"
+                      display="inline"
+                      className={classes.mobileTitle}
+                    >
+                      {track.title}
+                    </Typography>
+                  )}
+                  <AudioPlayer url={track.url} />
+                </ListItem>
+              </ExpansionPanelSummary>
+              {/* Summary End */}
+              {/* Details Start */}
+              <ExpansionPanelDetails className={classes.details}>
+                {mobile && (
                   <LikeTrack
                     trackId={track.id}
                     likeCount={track.likes.length}
                   />
-                  <ListItemText
-                    primary={track.title}
-                    secondary={
-                      <Link
-                        to={`/profile/${track.postedBy.id}`}
-                        className={classes.link}
-                      >
-                        {track.postedBy.username}
-                      </Link>
-                    }
-                    className={classes.listItemText}
-                  />
-                  <AudioPlayer url={track.url} />
-                </ListItem>
-              </ExpansionPanelSummary>
-              <ExpansionPanelDetails className={classes.details}>
+                )}
                 <Typography>{track.description}</Typography>
               </ExpansionPanelDetails>
-              <ExpansionPanelActions>
-                <UpdateTrack track={track} />
-                <DeleteTrack track={track} />
-              </ExpansionPanelActions>
+              {/* Details End */}
+              {editable && (
+                <ExpansionPanelActions>
+                  <UpdateTrack track={track} />
+                  <DeleteTrack track={track} />
+                </ExpansionPanelActions>
+              )}
             </ExpansionPanel>
           ))
         )}
@@ -72,7 +101,7 @@ export default function TrackList({ tracks }) {
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
-    justifyContent: "space-evenly",
+    justifyContent: "center",
   },
   list: {
     flexBasis: "768px",
@@ -87,7 +116,11 @@ const useStyles = makeStyles((theme) => ({
     margin: 0,
   },
   details: {
-    justifyContent: "center",
+    alignItems: "center",
+    justifyContent: "space-around",
+    [theme.breakpoints.down("xs")]: {
+      justifyContent: "center",
+    },
   },
   listItemText: {
     paddingLeft: theme.spacing(1),
@@ -98,5 +131,9 @@ const useStyles = makeStyles((theme) => ({
     "&:hover": {
       color: theme.palette.secondary.dark,
     },
+  },
+  mobileTitle: {
+    width: "100px",
+    marginRight: theme.spacing(0.5),
   },
 }));

@@ -25,7 +25,6 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    margin: `${theme.spacing(2)}px 0`,
   },
   linearRoot: {
     width: "100vw",
