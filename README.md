@@ -10,15 +10,26 @@
 
 ## 🔎 Overview
 
-> "at a glance information only"
+- Upload and playback:
 
-- TODO: project purpose
-- TODO: feature bulletpoints
+  - Save, play, edit or delete your own tracks
+  - Playback only for other user's uploads
 
-- Tech Stack:
+- Save favourites:
+
+  - Like or unlike tracks
+  - Browse user favourites via their profile page
+
+- Fully responsive layout:
+
+  - Three breakpoint layout provides a high quality user experience on mobile,
+    tablet or desktop devices
+
+- Tech stack:
+
   - _Javascript up front, Python in the back_
-  - Frontend client:
-    - React + Apollo
+  - Frontend:
+    - React + Apollo Client
   - Backend API:
     - Django, Graphene, GraphQL
   - Static server:
