@@ -32,7 +32,7 @@
     "start": "set PORT=8765 && react-app-rewired start",
     "dev": "bash build_tasks.sh && pushd .. && bash dev_start.sh --dev && popd",
     "docs": "npx styleguidist server",
-    "build-docs": "npx styleguidist build",
+    "docs:build": "npx styleguidist build",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
