@@ -124,7 +124,7 @@ const useStyles = makeStyles((theme) => ({
   },
   listItemText: {
     padding: `0px ${theme.spacing(1)}px`,
-    flex: "1",
+    flex: "1 1 20%",
   },
   link: {
     color: theme.palette.secondary.main,
