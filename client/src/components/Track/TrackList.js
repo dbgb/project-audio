@@ -123,7 +123,8 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   listItemText: {
-    paddingLeft: theme.spacing(1),
+    padding: `0px ${theme.spacing(1)}px`,
+    flex: "1",
   },
   link: {
     color: theme.palette.secondary.main,

@@ -17,7 +17,7 @@ export default function AudioPlayer({ url }) {
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
-    flex: "0 1 70%",
+    flex: "0 1 75%",
     [theme.breakpoints.down("xs")]: {
       flex: "0 1 100%",
     },
