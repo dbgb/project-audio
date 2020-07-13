@@ -2,13 +2,15 @@ import React, { useState } from "react";
 import Register from "./Register";
 import Login from "./Login";
 
+/**
+ * Send user to register/login, or redirect to main page if authenticated
+ */
 export default () => {
-  // Send user to register/login, or redirect to main page if authenticated
-  const [existingUser, setExistingUser] = useState(false);
+  const [isExistingUser, setIsExistingUser] = useState(false);
 
-  return existingUser ? (
-    <Login setExistingUser={setExistingUser} />
+  return isExistingUser ? (
+    <Login setIsExistingUser={setIsExistingUser} />
   ) : (
-    <Register setExistingUser={setExistingUser} />
+    <Register setIsExistingUser={setIsExistingUser} />
   );
 };

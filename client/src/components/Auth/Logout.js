@@ -3,6 +3,9 @@ import { useApolloClient } from "@apollo/react-hooks";
 import { Button, Typography } from "@material-ui/core";
 import { ExitToApp } from "@material-ui/icons";
 
+/**
+ * Render Logout auth component
+ */
 export default function Logout() {
   // Hook into Apollo client state to allow direct write
   const client = useApolloClient();

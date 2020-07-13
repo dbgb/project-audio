@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 import {
   Avatar,
   FormControl,
@@ -28,7 +29,10 @@ const SlideTransition = React.forwardRef((props, ref) => {
   return <Slide ref={ref} direction="down" {...props} />;
 });
 
-export default function Register({ setExistingUser }) {
+/**
+ * Render Register auth component
+ */
+export default function Register({ setIsExistingUser }) {
   // Hook into MUI stylesheet
   const classes = useStyles();
 
@@ -103,7 +107,7 @@ export default function Register({ setExistingUser }) {
             <Button
               variant="outlined"
               color="secondary"
-              onClick={() => setExistingUser(true)}
+              onClick={() => setIsExistingUser(true)}
             >
               Already registered? Log in here
             </Button>
@@ -132,7 +136,7 @@ export default function Register({ setExistingUser }) {
             className={classes.dialogButton}
             variant="contained"
             color="primary"
-            onClick={() => setExistingUser(true)}
+            onClick={() => setIsExistingUser(true)}
             endIcon={<LockOpen />}
           >
             Login
@@ -142,6 +146,11 @@ export default function Register({ setExistingUser }) {
     </div>
   );
 }
+
+Register.propTypes = {
+  /** Set true if user is already registered */
+  setIsExistingUser: PropTypes.bool.isRequired,
+};
 
 // Queries / Mutations
 const CREATE_USER = gql`

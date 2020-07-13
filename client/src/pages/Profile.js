@@ -9,6 +9,9 @@ import { makeStyles } from "@material-ui/core/styles";
 import Loading from "../components/Shared/Loading";
 import Error from "../components/Shared/Error";
 
+/**
+ * Determine a registered user from url params, then display their profile
+ */
 export default function Profile() {
   const classes = useStyles();
 

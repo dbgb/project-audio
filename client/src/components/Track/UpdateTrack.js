@@ -1,4 +1,5 @@
 import React, { useState, useContext, Fragment } from "react";
+import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Button,
@@ -29,6 +30,9 @@ import Loading from "../Shared/Loading";
 // Constants
 const fileSizeLimit = 10000000; // Bytes -> 10MB
 
+/**
+ * Handle updating existing audio tracks
+ */
 export default function UpdateTrack({ track }) {
   // Hook into MUI stylesheet
   const classes = useStyles();
@@ -182,20 +186,21 @@ export default function UpdateTrack({ track }) {
                   >
                     {file ? "File selected" : "Select audio file"}
                   </Button>
-                  <Typography
-                    display="inline"
-                    variant="subtitle2"
-                    className={classes.audioInputRow}
-                  >
-                    {/* Truncate display of excessively long track names */}
-                    {file && (
+                  {file && (
+                    <Typography
+                      display="inline"
+                      variant="subtitle2"
+                      className={classes.audioInputRow}
+                    >
+                      {/* Truncate display of excessively long track names */}
+
                       <span>
                         {file.name.length > 30
                           ? file.name.substring(0, 30) + "\u2026" // Unicode ellipsis
                           : file.name}
                       </span>
-                    )}
-                  </Typography>
+                    </Typography>
+                  )}
                   <FormHelperText>{fileSizeError}</FormHelperText>
                 </label>
               </FormControl>
@@ -228,6 +233,19 @@ export default function UpdateTrack({ track }) {
     )
   );
 }
+
+UpdateTrack.propTypes = {
+  /** Track details object */
+  track: PropTypes.shape({
+    /** ID of track to be updated */
+    id: PropTypes.string.isRequired,
+    /** Track uploader details object */
+    postedBy: PropTypes.shape({
+      /** ID of track uploader */
+      id: PropTypes.string.isRequired,
+    }).isRequired,
+  }).isRequired,
+};
 
 // Queries / Mutations
 const UPDATE_TRACK = gql`

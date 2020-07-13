@@ -1,6 +1,10 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 
+/**
+ * Render interactive audio player component
+ */
 export default function AudioPlayer({ url }) {
   // Hook into MUI stylesheet
   const classes = useStyles();
@@ -12,6 +16,11 @@ export default function AudioPlayer({ url }) {
     </div>
   );
 }
+
+AudioPlayer.propTypes = {
+  /** A valid https link to an audio file */
+  url: PropTypes.string.isRequired,
+};
 
 // MUI Component Styling
 const useStyles = makeStyles((theme) => ({

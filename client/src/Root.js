@@ -16,6 +16,9 @@ import Loading from "./components/Shared/Loading";
 // Make current user info available to nested children without prop drilling
 export const UserContext = React.createContext();
 
+/**
+ * Oversee project client routing and Apollo Client context
+ */
 export default function Root() {
   // Hook into MUI stylesheet
   const classes = useStyles();

@@ -1,4 +1,5 @@
 import React, { useState, Fragment } from "react";
+import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import {
   AppBar,
@@ -20,6 +21,9 @@ import {
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Logout from "../Auth/Logout";
 
+/**
+ * Provide app branding and main navigation elements
+ */
 export default function Header({ currentUser }) {
   // Hook into MUI stylesheet
   const classes = useStyles();
@@ -147,6 +151,14 @@ export default function Header({ currentUser }) {
     </AppBar>
   );
 }
+
+Header.propTypes = {
+  /** Object containing current user details */
+  currentUser: PropTypes.shape({
+    /** ID of current user */
+    id: PropTypes.string.isRequired,
+  }).isRequired,
+};
 
 // MUI component styling
 const useStyles = makeStyles((theme) => ({

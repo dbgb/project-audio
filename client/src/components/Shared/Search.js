@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 import { useLazyQuery } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
 import { makeStyles } from "@material-ui/styles";
@@ -7,6 +8,9 @@ import { Clear, Search as SearchIcon } from "@material-ui/icons";
 import Loading from "../Shared/Loading";
 import Error from "../Shared/Error";
 
+/**
+ * Render interactive search form
+ */
 export default function Search({ setSearchResults }) {
   // Hook into MUI stylesheet
   const classes = useStyles();
@@ -69,6 +73,11 @@ export default function Search({ setSearchResults }) {
     </form>
   );
 }
+
+Search.propTypes = {
+  /** Setter function to handle storing search results in client state */
+  setSearchResults: PropTypes.func.isRequired,
+};
 
 // Queries / Mutations
 const GET_SEARCH_RESULTS = gql`

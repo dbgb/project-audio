@@ -19,7 +19,7 @@ The client for the app is implemented using:
 - [React](https://reactjs.org/) \- To create and wire together the user
   interface components.
 - [Apollo Client](https://www.apollographql.com/docs/react/) \- For component
-  state management; GraphQL queries, mutations and caching\-and keeping the UI
+  state management; GraphQL queries, mutations and caching \- and keeping the UI
   up to date.
 - [Material UI](https://material-ui.com/) \- To provide reliable,
   high-performance UI components, with consistent styling and user experience

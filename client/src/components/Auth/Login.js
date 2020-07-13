@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 import {
   Avatar,
   FormControl,
@@ -15,7 +16,10 @@ import { useMutation, useApolloClient } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
 import Error from "../Shared/Error";
 
-export default function Login({ setExistingUser }) {
+/**
+ * Render Login auth component
+ */
+export default function Login({ setIsExistingUser }) {
   // Hook into MUI stylesheet
   const classes = useStyles();
 
@@ -80,7 +84,7 @@ export default function Login({ setExistingUser }) {
             <Button
               variant="outlined"
               color="secondary"
-              onClick={() => setExistingUser(false)}
+              onClick={() => setIsExistingUser(false)}
             >
               New user? Register here
             </Button>
@@ -91,6 +95,11 @@ export default function Login({ setExistingUser }) {
     </div>
   );
 }
+
+Login.propTypes = {
+  /** Set true if user is already registered */
+  setIsExistingUser: PropTypes.bool.isRequired,
+};
 
 // Queries / Mutations
 const AUTH_USER = gql`

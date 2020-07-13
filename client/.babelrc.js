@@ -1,3 +1,5 @@
+const presets = ["@babel/preset-react"];
+
 const plugins = [
   [
     // Allow babel to optimize top-level import load times in dev environment
@@ -22,4 +24,4 @@ const plugins = [
   ],
 ];
 
-module.exports = { plugins };
+module.exports = { plugins, presets };

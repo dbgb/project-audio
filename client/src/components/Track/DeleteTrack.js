@@ -1,4 +1,5 @@
 import React, { useState, useContext, Fragment } from "react";
+import PropTypes from "prop-types";
 import { gql } from "apollo-boost";
 import { useMutation } from "@apollo/react-hooks";
 import { makeStyles } from "@material-ui/core/styles";
@@ -9,6 +10,9 @@ import { UserContext } from "../../Root";
 import Error from "./../Shared/Error";
 import Loading from "./../Shared/Loading";
 
+/**
+ * Handle the deletion of existing audio tracks and updating the client cache
+ */
 export default function DeleteTrack({ track }) {
   // Hook into MUI stylesheet
   const classes = useStyles();
@@ -80,6 +84,19 @@ export default function DeleteTrack({ track }) {
     )
   );
 }
+
+DeleteTrack.propTypes = {
+  /** Track details object */
+  track: PropTypes.shape({
+    /** ID of track to be deleted */
+    id: PropTypes.string.isRequired,
+    /** Track uploader details object */
+    postedBy: PropTypes.shape({
+      /** ID of track uploader */
+      id: PropTypes.string.isRequired,
+    }).isRequired,
+  }).isRequired,
+};
 
 // Queries / Mutations
 const DELETE_TRACK = gql`

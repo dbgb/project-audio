@@ -1,6 +1,9 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
+/**
+ * Render Footer component
+ */
 export default function Footer() {
   // Hook into MUI stylesheet
   const classes = useStyles();

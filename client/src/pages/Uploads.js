@@ -8,6 +8,10 @@ import Loading from "../components/Shared/Loading";
 import Error from "../components/Shared/Error";
 import TrackList from "../components/Track/TrackList";
 
+/**
+ * Determine a registered user from url params, then display their uploaded
+ * tracks
+ */
 export default function Uploads() {
   // Hook into MUI stylesheet
   const classes = useStyles();

@@ -1,4 +1,5 @@
 import React, { Fragment } from "react";
+import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import {
@@ -18,6 +19,9 @@ import DeleteTrack from "../Track/DeleteTrack";
 import UpdateTrack from "../Track/UpdateTrack";
 import AudioPlayer from "../Shared/AudioPlayer";
 
+/**
+ * Provide track listings with conditional track edit controls
+ */
 export default function TrackList({ tracks, editable = false }) {
   // Hook into MUI stylesheet
   const classes = useStyles();
@@ -96,6 +100,13 @@ export default function TrackList({ tracks, editable = false }) {
     </div>
   );
 }
+
+TrackList.propTypes = {
+  /** A list of track objects */
+  tracks: PropTypes.array.isRequired,
+  /** If true, render track update / delete controls */
+  editable: PropTypes.bool,
+};
 
 // MUI Component Styling
 const useStyles = makeStyles((theme) => ({

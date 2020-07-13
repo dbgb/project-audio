@@ -25,11 +25,14 @@
     "@material-ui/codemod": "^4.5.0",
     "babel-plugin-import": "^1.13.0",
     "customize-cra": "^1.0.0",
-    "react-app-rewired": "^2.1.6"
+    "react-app-rewired": "^2.1.6",
+    "react-styleguidist": "^11.0.8"
   },
   "scripts": {
     "start": "set PORT=8765 && react-app-rewired start",
     "dev": "bash build_tasks.sh && pushd .. && bash dev_start.sh --dev && popd",
+    "docs": "npx styleguidist server",
+    "build-docs": "npx styleguidist build",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",

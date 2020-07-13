@@ -30,6 +30,9 @@ import { GET_TRACKS } from "../../pages/App";
 // Constants
 const fileSizeLimit = 10000000; // Bytes -> 10MB
 
+/**
+ * Handle the creation of new audio tracks and updating the client cache
+ */
 export default function CreateTrack() {
   // Hook into MUI stylesheet
   const classes = useStyles();
@@ -206,20 +209,20 @@ export default function CreateTrack() {
                 >
                   {file ? "File selected" : "Select audio file"}
                 </Button>
-                <Typography
-                  display="inline"
-                  variant="subtitle2"
-                  className={classes.audioInputRow}
-                >
-                  {/* Truncate display of excessively long track names */}
-                  {file && (
+                {file && (
+                  <Typography
+                    display="inline"
+                    variant="subtitle2"
+                    className={classes.audioInputRow}
+                  >
+                    {/* Truncate display of excessively long track names */}
                     <span>
                       {file.name.length > 30
                         ? file.name.substring(0, 30) + "\u2026" // Unicode ellipsis
                         : file.name}
                     </span>
-                  )}
-                </Typography>
+                  </Typography>
+                )}
                 <FormHelperText>{fileSizeError}</FormHelperText>
               </label>
             </FormControl>

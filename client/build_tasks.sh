@@ -24,7 +24,7 @@ popd
 # 3. Collect static files for backend
 # -- If Django is detected,
 # -- handled automatically by Heroku Python buildpack in production
-if [[ $DEV_MODE == true  ]]; then
+if [[ $DEV_MODE == true ]]; then
   pushd ../backend
   pipenv run python manage.py collectstatic --no-input
   popd

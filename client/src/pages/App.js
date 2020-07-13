@@ -7,6 +7,9 @@ import Search from "../components/Shared/Search";
 import TrackList from "../components/Track/TrackList";
 import CreateTrack from "../components/Track/CreateTrack";
 
+/**
+ * Container component for the main app view
+ */
 export default function App() {
   // Component state
   const { loading, error, data } = useQuery(GET_TRACKS);

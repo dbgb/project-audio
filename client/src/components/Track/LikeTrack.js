@@ -1,4 +1,5 @@
 import React, { useContext, Fragment } from "react";
+import PropTypes from "prop-types";
 import { gql } from "apollo-boost";
 import { useMutation } from "@apollo/react-hooks";
 import { IconButton, Typography } from "@material-ui/core";
@@ -8,6 +9,9 @@ import { UserContext } from "../../Root";
 import { CURRENT_USER } from "../../Root";
 import Error from "../Shared/Error";
 
+/**
+ * Handle track liking, unliking and displaying like counts
+ */
 export default function LikeTrack({ trackId, likeCount }) {
   // Hook into MUI stylesheet
   const classes = useStyles();
@@ -67,11 +71,18 @@ export default function LikeTrack({ trackId, likeCount }) {
           <FavoriteBorder className={classes.likeIcon} />
         )}
       </IconButton>
-      {(likeError) && <Error error={likeError} />}
-      {(unlikeError) && <Error error={unlikeError} />}
+      {likeError && <Error error={likeError} />}
+      {unlikeError && <Error error={unlikeError} />}
     </Fragment>
   );
 }
+
+LikeTrack.propTypes = {
+  /** ID of track being liked/unliked */
+  trackId: PropTypes.string.isRequired,
+  /** Current number of likes for the given track */
+  likeCount: PropTypes.number.isRequired,
+};
 
 // Queries / Mutations
 const LIKE_TRACK = gql`
