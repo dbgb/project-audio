@@ -7,8 +7,8 @@ import {
   Menu,
   MenuItem,
   IconButton,
-  ListItemIcon,
   ListItemText,
+  useMediaQuery,
 } from "@material-ui/core";
 import {
   Home,
@@ -17,16 +17,17 @@ import {
   Person,
   MusicNote,
 } from "@material-ui/icons";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Logout from "../Auth/Logout";
 
 export default function Header({ currentUser }) {
   // Hook into MUI stylesheet
   const classes = useStyles();
-
+  const theme = useTheme();
   // Component State
   // Store anchor element for menu
   const [anchorEl, setAnchorEl] = useState(null);
+  const mobile = useMediaQuery(theme.breakpoints.down("xs"));
 
   // Handlers
   const handleClick = (e) => {
@@ -91,66 +92,48 @@ export default function Header({ currentUser }) {
               keepMounted
               open={!!anchorEl}
               onClose={handleClose}
-              className={classes.menu}
             >
               {/* Mobile only start */}
-              <MenuItem className={classes.mobileOnly}>
-                <Link
-                  to={`/`}
-                  onDragStart={(e) => e.preventDefault()}
-                  className={classes.mobileOnlyLink}
-                >
-                  <ListItemText
-                    className={classes.mobileOnlyLabel}
-                    variant="button"
+              {mobile && (
+                <div>
+                  <Link
+                    to={`/`}
+                    onDragStart={(e) => e.preventDefault()}
+                    className={classes.mobileOnlyLink}
                   >
-                    Home
-                  </ListItemText>
-                  <ListItemIcon>
-                    <Home fontSize="small" className={classes.mobileOnlyIcon} />
-                  </ListItemIcon>
-                </Link>
-              </MenuItem>
-              <MenuItem className={classes.mobileOnly}>
-                <Link
-                  to={`/uploads/${currentUser.id}`}
-                  onDragStart={(e) => e.preventDefault()}
-                  className={classes.mobileOnlyLink}
-                >
-                  <ListItemText
-                    className={classes.mobileOnlyLabel}
-                    variant="button"
+                    <MenuItem
+                      onClick={handleClose}
+                      className={classes.mobileOnlyItem}
+                    >
+                      <ListItemText variant="button">Home</ListItemText>
+                    </MenuItem>
+                  </Link>
+                  <Link
+                    to={`/uploads/${currentUser.id}`}
+                    onDragStart={(e) => e.preventDefault()}
+                    className={classes.mobileOnlyLink}
                   >
-                    Uploads
-                  </ListItemText>
-                  <ListItemIcon>
-                    <MusicNote
-                      fontSize="small"
-                      className={classes.mobileOnlyIcon}
-                    />
-                  </ListItemIcon>
-                </Link>
-              </MenuItem>
-              <MenuItem className={classes.mobileOnly}>
-                <Link
-                  to={`/profile/${currentUser.id}`}
-                  onDragStart={(e) => e.preventDefault()}
-                  className={classes.mobileOnlyLink}
-                >
-                  <ListItemText
-                    className={classes.mobileOnlyLabel}
-                    variant="button"
+                    <MenuItem
+                      onClick={handleClose}
+                      className={classes.mobileOnlyItem}
+                    >
+                      <ListItemText variant="button">Uploads</ListItemText>
+                    </MenuItem>
+                  </Link>
+                  <Link
+                    to={`/profile/${currentUser.id}`}
+                    onDragStart={(e) => e.preventDefault()}
+                    className={classes.mobileOnlyLink}
                   >
-                    Profile
-                  </ListItemText>
-                  <ListItemIcon>
-                    <Person
-                      fontSize="small"
-                      className={classes.mobileOnlyIcon}
-                    />
-                  </ListItemIcon>
-                </Link>
-              </MenuItem>
+                    <MenuItem
+                      onClick={handleClose}
+                      className={classes.mobileOnlyItem}
+                    >
+                      <ListItemText variant="button">Profile</ListItemText>
+                    </MenuItem>
+                  </Link>
+                </div>
+              )}
               {/* Mobile only end */}
               <MenuItem>
                 <Logout />
@@ -204,21 +187,16 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(1),
     fontSize: "2em",
   },
-  menu: {},
   menuButton: {
     color: "#eee",
   },
   menuButtonIcon: {
     fontSize: "1.5em",
   },
-  mobileOnly: {
-    [theme.breakpoints.up("sm")]: {
-      display: "none",
-    },
+  mobileOnlyItem: {
+    textAlign: "center",
   },
   mobileOnlyLink: {
     textDecoration: "none",
   },
-  mobileOnlyIcon: {},
-  mobileOnlyLabel: {},
 }));
