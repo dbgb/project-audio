@@ -15,7 +15,7 @@ export default function Uploads() {
   // Access user id from url params
   const { id } = useParams();
 
-  const { loading, error, data } = useQuery(USER_TRACKS, {
+  const { loading, error, data } = useQuery(USER_INFO, {
     variables: { id: id },
     // Use cache, but also send network request to ensure up to date data
     fetchPolicy: "cache-and-network",
@@ -49,9 +49,10 @@ export default function Uploads() {
 }
 
 // Queries / Mutations
-const USER_TRACKS = gql`
+const USER_INFO = gql`
   query($id: Int!) {
     user(id: $id) {
+      id
       username
       trackSet {
         id
