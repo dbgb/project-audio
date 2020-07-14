@@ -51,6 +51,7 @@ export default function Root() {
             <Route exact path="/" component={App} />
             <Route path="/profile/:id" component={Profile} />
             <Route path="/uploads/:id" component={Uploads} />
+            <Route path="*" component={App} />
           </Switch>
         </Container>
         <Footer />
