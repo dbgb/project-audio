@@ -149,7 +149,7 @@ export default function Register({ setIsExistingUser }) {
 
 Register.propTypes = {
   /** Set true if user is already registered */
-  setIsExistingUser: PropTypes.bool.isRequired,
+  setIsExistingUser: PropTypes.func.isRequired,
 };
 
 // Queries / Mutations

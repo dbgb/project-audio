@@ -98,7 +98,7 @@ export default function Login({ setIsExistingUser }) {
 
 Login.propTypes = {
   /** Set true if user is already registered */
-  setIsExistingUser: PropTypes.bool.isRequired,
+  setIsExistingUser: PropTypes.func.isRequired,
 };
 
 // Queries / Mutations
