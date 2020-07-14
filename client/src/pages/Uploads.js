@@ -39,7 +39,7 @@ export default function Uploads() {
         <div className={classes.container}>
           <Typography className={classes.title} variant="h5">
             {/* The capital A is intentional - it renders as a triangle with the assigned font */}
-            {data.user.username}'s uploAds
+            uploAds
           </Typography>
           {userTracks.length < 1 && (
             <Typography className={classes.emptyMessage}>
@@ -89,12 +89,14 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     textAlign: "center",
-    padding: theme.spacing(0.5),
     fontFamily: "'Major Mono Display', monospace, sans-serif",
   },
   emptyMessage: {
-    position: "relative",
-    top: "70px",
     textAlign: "center",
+    position: "relative",
+    top: "60px",
+    [theme.breakpoints.down("xs")]: {
+      top: "35px",
+    },
   },
 }));

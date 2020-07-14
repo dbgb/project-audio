@@ -1,5 +1,4 @@
-import React from "react";
-import moment from "moment";
+import React, { Fragment } from "react";
 import { useQuery } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
 import { useParams } from "react-router-dom";
@@ -8,6 +7,8 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import Loading from "../components/Shared/Loading";
 import Error from "../components/Shared/Error";
+import UserCard from "../components/Shared/UserCard";
+import TrackList from "../components/Track/TrackList";
 
 /**
  * Determine a registered user from url params, then display their profile
@@ -27,26 +28,33 @@ export default function Profile() {
 
   const userInfo = data.user;
 
-  // Display date in human readable format, localized to user computer timezone
-  let dateJoined = moment(userInfo.dateJoined).format(
-    "MMMM Do YYYY, h:mm:ss a"
-  );
-
   return (
-    <div className={classes.root}>
-      <div className={classes.container}>
-        <Typography
-          className={classes.profile}
-          variant="body1"
-        >{`User: ${userInfo.username} (id: ${userInfo.id})`}</Typography>
-        <Typography className={classes.profile} variant="body2">
-          Email: {userInfo.email}
+    <Fragment>
+      {/* Display user details */}
+      <UserCard userID={id} {...userInfo} />
+      {/* Display user favourites */}
+      <Typography className={classes.title} variant="h5">
+        {/* The capital A is intentional - it renders as a triangle with the assigned font */}
+        fAvourites
+      </Typography>
+      {data.user.likeSet.length < 1 && (
+        <Typography className={classes.emptyMessage}>
+          No favourites yet!
         </Typography>
-        <Typography className={classes.profile} variant="body2">
-          Date Joined: {dateJoined}
+      )}
+      <TrackList tracks={userInfo.likeSet.map(({ track }) => track)} />
+      {/* Display user uploads */}
+      <Typography className={classes.title} variant="h5">
+        {/* The capital A is intentional - it renders as a triangle with the assigned font */}
+        uploAds
+      </Typography>
+      {data.user.trackSet.length < 1 && (
+        <Typography className={classes.emptyMessage}>
+          Nothing uploaded yet!
         </Typography>
-      </div>
-    </div>
+      )}
+      <TrackList tracks={data.user.trackSet} />
+    </Fragment>
   );
 }
 
@@ -60,11 +68,29 @@ const USER_FROM_ID = gql`
       trackSet {
         id
         title
+        description
+        url
+        postedBy {
+          id
+          username
+        }
+        likes {
+          id
+        }
       }
       likeSet {
         track {
           id
           title
+          description
+          url
+          postedBy {
+            id
+            username
+          }
+          likes {
+            id
+          }
         }
       }
     }
@@ -72,17 +98,17 @@ const USER_FROM_ID = gql`
 `;
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-evenly",
-    marginTop: theme.spacing(1),
+  title: {
+    marginBottom: theme.spacing(1),
+    textAlign: "center",
+    fontFamily: "'Major Mono Display', monospace, sans-serif",
   },
-  container: {
-    flexBasis: "768px",
-    margin: theme.spacing(1),
-  },
-  profile: {
-    padding: theme.spacing(0.5),
+  emptyMessage: {
+    textAlign: "center",
+    position: "relative",
+    top: "60px",
+    [theme.breakpoints.down("xs")]: {
+      top: "35px",
+    },
   },
 }));

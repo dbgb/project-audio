@@ -113,6 +113,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
     justifyContent: "center",
+    marginBottom: theme.spacing(1),
   },
   list: {
     flexBasis: "768px",
@@ -121,6 +122,9 @@ const useStyles = makeStyles((theme) => ({
   icon: {
     color: theme.palette.primary.light,
     fontSize: "32rem",
+    [theme.breakpoints.down("xs")]: {
+      fontSize: "20rem",
+    },
     opacity: "30%",
   },
   summary: {
