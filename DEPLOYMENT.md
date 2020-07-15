@@ -38,7 +38,7 @@
 
 For the purposes of relatively small-scale project, option 3 seems excessive and
 option 4 is doesn't provide any obviously significant benefits over deploying on
-a single machine\-which leaves us with options 1 and 2 to consider.
+a single machine \- which leaves us with options 1 and 2 to consider.
 
 If we deploy as two apps _(option 1 above)_, it means writing a Node.js static
 server for the frontend client and configuring CORS so that the frontend can
@@ -51,7 +51,7 @@ middleware. This approach means the app can be built and served from a single
 machine instance and from a single domain (no CORS configuration required).
 
 The backend code has been written in a modular style, with [Twelve-Factor best
-practises](https://aws.amazon.com/blogs/compute/applying-the-twelve-factor-app-methodology-to-serverless-applications/)
+practices](https://aws.amazon.com/blogs/compute/applying-the-twelve-factor-app-methodology-to-serverless-applications/)
 in mind, to keep as much configuration in the deployment environment as
 possible. This means we aren't bound to any particular service provider and can
 make our backend code compatible with other platforms with minimal effort.
@@ -64,8 +64,8 @@ platform-as-a-service provider.
 
 ### Using Heroku with a monorepo
 
-Our project is set up as single git repo tracking multiple projects ie. a
-monorepo. Organising the project structure in this way allows related changes to
+Our project is set up as a monorepo ie. a single git repo tracking multiple
+projects. Organising the project structure in this way allows changes related to
 both the frontend and backend code to be checked into version control together,
 whilst maintaining separation of concerns, versions and issues for each
 individual project.
@@ -88,7 +88,7 @@ inspection](https://github.com/negativetwelve/heroku-buildpack-subdir)
 .
 
 The former can be handy if the goal is to run the client and API on separate
-Heroku dynos, but in our case the latter is more suitable\-we will only need a
+Heroku dynos, but in our case the latter is more suitable \- we will only need a
 single permanent dyno to serve the entire project after the client build has
 been created and collected.
 

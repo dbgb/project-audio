@@ -1,6 +1,6 @@
 # ![projectAudio](other/project-header.jpg) <!-- omit in toc -->
 
-## _Full-stack, audio streaming app_ <!-- omit in toc -->
+## _Full-stack audio streaming app_ <!-- omit in toc -->
 
 ### Contents <!-- omit in toc -->
 
@@ -15,10 +15,14 @@
   - Save, play, edit or delete your own tracks
   - Playback only for other user's uploads
 
+- Searchable tracklist:
+
+  - Filter tracks by title, poster, description etc.
+
 - Save favourites:
 
   - Like or unlike tracks
-  - Browse user favourites via their profile page
+  - Browse user favourites and uploads via their profile page
 
 - Fully responsive layout:
 
