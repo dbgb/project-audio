@@ -1,11 +1,12 @@
 # ![projectAudio](other/project-header.jpg) <!-- omit in toc -->
 
-## _Full-stack audio streaming app_ <!-- omit in toc -->
+## _🎵 Full-stack audio streaming app MVP_ <!-- omit in toc -->
 
 ### Contents <!-- omit in toc -->
 
 - [🔎 Overview](#-overview)
 - [🎵 Demo](#-demo)
+- [💡 Planned features](#-planned-features)
 - [🚀 Further information](#-further-information)
 
 ## 🔎 Overview
@@ -42,7 +43,13 @@
 ## 🎵 Demo
 
 - A live, demo version of the app is hosted [here](https://projectaudio.herokuapp.com).
-- TODO: video/images/animations
+
+## 💡 Planned features
+
+- End-to-end Cypress test suite
+- Persistent audio playback when navigating app
+- User playlists
+- Custom audio player component
 
 ## 🚀 Further information
 
